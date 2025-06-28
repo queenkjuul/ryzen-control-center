@@ -37,6 +37,7 @@
     "eslint-plugin-svelte": "^3.5.1",
     "prettier": "^3.5.3",
     "prettier-plugin-svelte": "^3.3.3",
+    "sudo-prompt": "^9.2.1",
     "svelte": "^5.26.1",
     "svelte-check": "^4.1.5",
     "typescript": "^5.8.3",

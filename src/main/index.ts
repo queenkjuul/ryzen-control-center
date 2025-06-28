@@ -1,7 +1,9 @@
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import { app, BrowserWindow, ipcMain, Menu, nativeTheme, shell, Tray } from 'electron'
 import { join } from 'path'
+import sudo from 'sudo-prompt'
 import { getIconPath } from './icon'
+import { RyzenadjClient } from './RyzenAdjClient'
 
 const APP_NAME = 'Ryzen Control Center'
 
@@ -32,6 +34,15 @@ function createWindow(): void {
     mainWindow.show()
   })
 
+  mainWindow.on('minimize', () => {
+    mainWindow.hide()
+  })
+
+  mainWindow.on('close', (e) => {
+    e.preventDefault()
+    mainWindow.hide()
+  })
+
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url)
     return { action: 'deny' }
@@ -46,19 +57,21 @@ function createWindow(): void {
   }
 }
 
+// =====================================================
+//      INIT
+// =====================================================
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-  // INIT
-  // =================================
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
 
   // Set up system tray icon
   tray = new Tray(getIconPath())
   const trayMenu = Menu.buildFromTemplate([
-    { label: 'Ryzen Control Center', type: 'normal', click: createWindow },
+    { label: APP_NAME, type: 'normal', click: createWindow },
     { type: 'separator' },
     { label: 'Exit', type: 'normal', click: () => app.quit() }
   ])
@@ -81,13 +94,11 @@ app.whenReady().then(() => {
     mainWindow.setIcon(getIconPath())
   })
 
-  // createWindow()
-
-  // app.on('activate', function () {
-  //   // On macOS it's common to re-create a window in the app when the
-  //   // dock icon is clicked and there are no other windows open.
-  //   if (BrowserWindow.getAllWindows().length === 0) createWindow()
-  // })
+  const ryzenadjClient = new RyzenadjClient()
+  ryzenadjClient.runInfo()
+  sudo.exec('sudo ryzenadj -i', async (_e, so, _se) => {
+    console.log('ran: ', so)
+  })
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common

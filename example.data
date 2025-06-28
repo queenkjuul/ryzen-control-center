@@ -1,0 +1,32 @@
+CPU Family: Cezanne
+SMU BIOS Interface Version: 18
+Version: v0.17.0 
+PM Table Version: 400005
+|        Name         |   Value   |     Parameter      |
+|---------------------|-----------|--------------------|
+| STAPM LIMIT         |    35.000 | stapm-limit        |
+| STAPM VALUE         |    12.508 |                    |
+| PPT LIMIT FAST      |    65.000 | fast-limit         |
+| PPT VALUE FAST      |    31.623 |                    |
+| PPT LIMIT SLOW      |    42.000 | slow-limit         |
+| PPT VALUE SLOW      |     8.700 |                    |
+| StapmTimeConst      |   275.000 | stapm-time         |
+| SlowPPTTimeConst    |     5.000 | slow-time          |
+| PPT LIMIT APU       |    42.000 | apu-slow-limit     |
+| PPT VALUE APU       |     8.700 |                    |
+| TDC LIMIT VDD       |    51.000 | vrm-current        |
+| TDC VALUE VDD       |     7.101 |                    |
+| TDC LIMIT SOC       |    15.000 | vrmsoc-current     |
+| TDC VALUE SOC       |     1.410 |                    |
+| EDC LIMIT VDD       |   105.000 | vrmmax-current     |
+| EDC VALUE VDD       |   103.921 |                    |
+| EDC LIMIT SOC       |    20.000 | vrmsocmax-current  |
+| EDC VALUE SOC       |     0.000 |                    |
+| THM LIMIT CORE      |    80.000 | tctl-temp          |
+| THM VALUE CORE      |    72.064 |                    |
+| STT LIMIT APU       |    50.000 | apu-skin-temp      |
+| STT VALUE APU       |     0.000 |                    |
+| STT LIMIT dGPU      |     0.000 | dgpu-skin-temp     |
+| STT VALUE dGPU      |     0.000 |                    |
+| CCLK Boost SETPOINT |    50.000 | power-saving /     |
+| CCLK BUSY VALUE     |    96.709 | max-performance    |
