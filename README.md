@@ -35,6 +35,7 @@ Development is focused on compatibility with latest Ubuntu, but should be mostly
 - [ ] Integration with other power monitoring (e.g. show current battery draw, `powertop` interaction)
 - [ ] `asusctl`/ROG Control Center integration
 - [ ] Ubuntu PPA packaging
+- [ ] Rewrite `IpcClient` to use Promises/async
 
 ## Development
 

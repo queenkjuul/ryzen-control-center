@@ -2,6 +2,7 @@ import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import { app, BrowserWindow, ipcMain, Menu, nativeTheme, shell, Tray } from 'electron'
 import { join } from 'path'
 import { getIconPath } from './icon'
+import { IpcClient } from './node-ipc-client'
 
 const APP_NAME = 'Ryzen Control Center'
 
@@ -49,7 +50,7 @@ function createWindow(): void {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   // INIT
   // =================================
   // Set app user model id for windows
@@ -74,11 +75,27 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
+  const ipcClient = new IpcClient('ryzend')
+  try {
+    await ipcClient.connect()
+  } catch (e) {
+    console.log(e)
+  }
+
+  ipcClient.on('error', console.error)
+  ipcClient.on('data', console.log)
+  ipcClient.on('close', console.log)
+
+  app.on('before-quit', () => {
+    ipcClient.close()
+  })
+
   // IPC test
-  ipcMain.on('ping', () => {
+  ipcMain.on('ping', async () => {
     nativeTheme.themeSource = nativeTheme.shouldUseDarkColors ? 'light' : 'dark'
     tray.setImage(getIconPath())
     mainWindow.setIcon(getIconPath())
+    ipcClient.write(0, 'LIVE_LONG_AND_PROSPER')
   })
 
   // createWindow()
