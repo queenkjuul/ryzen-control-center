@@ -26,7 +26,7 @@ code {
   font-size: 85%;
 }
 
-#app {
+#root {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -72,8 +72,8 @@ code {
   font-weight: 600;
 }
 
-.svelte {
-  background: -webkit-linear-gradient(315deg, #ff3e00 35%, #647eff);
+.react {
+  background: -webkit-linear-gradient(315deg, #087ea4 55%, #7c93ee);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

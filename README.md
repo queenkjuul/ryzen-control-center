@@ -2,11 +2,13 @@
 
 Quick and dirty wrapper for [RyzenAdj](https://github.com/FlyGoat/RyzenAdj) on Linux (and maybe Windows)
 
+Maybe someday, less quick and dirty, and instead a D-Bus client for [`ryzend`](https://github.com/queenkjuul/ryzend)
+
 ## About
 
 Inspired by the now-abandoned [Ryzen Controller](https://gitlab.com/ryzen-controller-team/ryzen-controller), designed for simple tray-focused interaction.
 
-Built with Electron, Vite, and Svelte.
+Built with Electron, Vite, React, and Tailwind.
 
 Development is focused on compatibility with latest Ubuntu, but should be mostly platform-independent.
 
@@ -36,11 +38,23 @@ Development is focused on compatibility with latest Ubuntu, but should be mostly
 - [ ] `asusctl`/ROG Control Center integration
 - [ ] Ubuntu PPA packaging
 
+## Usage
+
+It should be straightforward. For details on various parameters, see the RyzenAdj docs.
+
+### Ubuntu
+
+Due to an incompatibility between Ubuntu 25+, Node.js, and polkit, sudo operations called from a Node process can hang for a long time.
+
+The issue is being tracked on the polkit github: [#572](https://github.com/polkit-org/polkit/issues/572)
+
+This can be worked around by setting a lower `ulimit -Sn` or `ulimit -Hn` value. The app will do this automatically if it detects it is running on Ubuntu 25+, or if either the `ULIMIT_S` or `ULIMIT_H` environment variables are set. These variables set the threshold value for each limit. If the system limit is above the threshold value, it will be clamped to the provided value. If the system value is below the threshold, it is not adjusted.
+
+My system works fine with both clamping values set to `524288`, so that's the default. Values can be as low as `1024`.
+
+**SETTING VERY LOW OR VERY HIGH VALUES MAY CAUSE SYSTEM PROBLEMS. I TAKE NO RESPONSIBILITY FOR YOUR SYSTEM. USE THIS SOFTWARE AT YOUR OWN RISK**
+
 ## Development
-
-### Recommended IDE Setup
-
-- [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode)
 
 ### Project Setup
 
@@ -62,16 +76,13 @@ $ npm run dev
 # For windows
 $ npm run build:win
 
-# For macOS
-$ npm run build:mac
-
 # For Linux
 $ npm run build:linux
 ```
 
 #### Code of Conduct
 
-be nice; stay woke; be gay, do crime; live long, and prosper.
+be nice, stay woke; be gay, do crime; live long, and prosper.
 
 ## License
 
@@ -80,9 +91,3 @@ be nice; stay woke; be gay, do crime; live long, and prosper.
 Distributed under the terms of the GNU General Public License Version 3 (GNU GPL v3)
 
 AMD, Ryzen, and the AMD logo are trademarks of Advanced Micro Devices, Inc.; this project claims no rights to these trademarks.
-
----
-
-Normally I just release everything under something permissive, e.g. MIT or CC0. However, I plan to copy documentation from the RyzenAdj Wiki, and RyzenAdj is under GPLv3, and I might technically be taking "source code" from RyzenAdj in the form of the Wiki contents.
-
-IANAL so I'll just stick with GPLv3. You win this one, Stallman.
