@@ -1,6 +1,6 @@
 import sudo from 'sudo-prompt'
-import { APP_NAME as name } from './app-name'
-import { logger } from './logger'
+import { APP_NAME as name } from './config/app-name'
+import { logger } from './config/logger'
 import {
   RyzenInfo,
   RyzenInfoParams,

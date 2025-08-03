@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron'
-import { RyzenInfoParams, RyzenInfoValue } from '../types/ryzenadj'
+import { RyzenInfoParams, RyzenInfoValue } from '/@/types/ryzenadj'
 
 // Custom APIs for renderer
 const api = {

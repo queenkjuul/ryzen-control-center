@@ -1,13 +1,14 @@
-import { electronApp, is, optimizer } from '@electron-toolkit/utils'
-import { app, BrowserWindow, ipcMain, Menu, nativeTheme, shell, Tray } from 'electron'
-import { join } from 'path'
+import { electronApp, optimizer } from '@electron-toolkit/utils'
+import { app, ipcMain, Menu, nativeTheme, Tray } from 'electron'
 import { IpcResponse } from '../types/ipc'
-import { APP_NAME } from './app-name'
-import { getIconPath } from './icon'
-import { logger } from './logger'
+import { APP_NAME } from './config/app-name'
+import { logger } from './config/logger'
 import { getRyzenInfo, setParamAndGetInfo } from './ryzenadj'
+import { appState } from './state'
+import { ubuntuSetup, ubuntuTeardown } from './ubuntu'
+import { getIconPath } from './util/icon'
 import { sillySaying } from './util/silly'
-import { ubuntuSetup, ubuntuTeardown } from './util/ubuntu'
+import { createWindow } from './windows/main'
 import { version } from '/@/version.js'
 import {
   RyzenInfo,
@@ -32,57 +33,8 @@ Distributed under the terms of the GNU GPL v3 License, except where noted
 silly()
 
 let tray: Tray
-let mainWindow: BrowserWindow
-let forceQuit = false
 
-function createWindow(): void {
-  if (mainWindow) {
-    logger.info('Showing main window')
-    mainWindow.show()
-    return
-  }
-
-  logger.info('Creating main window')
-  // Create the browser window.
-  mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
-    show: false,
-    autoHideMenuBar: true,
-    ...(process.platform === 'linux' ? { icon: getIconPath() } : {}),
-    webPreferences: {
-      preload: join(__dirname, '../preload/index.js'),
-      sandbox: true
-    },
-    title: APP_NAME
-  })
-
-  mainWindow.on('ready-to-show', () => {
-    mainWindow.show()
-  })
-
-  mainWindow.on('close', (event) => {
-    logger.debug('mainWindow close', event)
-    if (mainWindow.isVisible() && !forceQuit) {
-      event.preventDefault()
-      mainWindow.hide()
-    }
-  })
-
-  mainWindow.webContents.setWindowOpenHandler((details) => {
-    logger.info('Opening external window')
-    shell.openExternal(details.url)
-    return { action: 'deny' }
-  })
-
-  // HMR for renderer base on electron-vite cli.
-  // Load the remote URL for development or the local html file for production.
-  if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
-  } else {
-    mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
-  }
-}
+const { mainWindow } = appState
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -119,7 +71,7 @@ app.whenReady().then(() => {
       type: 'normal',
       click: () => {
         logger.debug('Exit tray button clicked')
-        forceQuit = true
+        appState.forceQuit = true
         app.quit()
       }
     }
@@ -153,7 +105,7 @@ app.whenReady().then(() => {
   ipcMain.on('ping', () => {
     nativeTheme.themeSource = nativeTheme.shouldUseDarkColors ? 'light' : 'dark'
     tray.setImage(getIconPath())
-    mainWindow.setIcon(getIconPath())
+    mainWindow?.setIcon(getIconPath())
   })
 
   ipcMain.handle('getRyzenInfo', async (): Promise<IpcResponse<RyzenInfo>> => {

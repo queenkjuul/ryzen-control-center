@@ -1,8 +1,8 @@
 import { nativeTheme } from 'electron'
-import amd_logo_black from '../../resources/amd-logo-black.png?asset'
-import amd_logo_dark from '../../resources/amd-logo-dark.png?asset'
-import amd_logo_light from '../../resources/amd-logo-light.png?asset'
-import amd_logo_white from '../../resources/amd-logo-white.png?asset'
+import amd_logo_dark from '/@res/amd-logo-dark.png?asset'
+import amd_logo_light from '/@res/amd-logo-light.png?asset'
+import amd_logo_white from '/@res/amd-logo-white.png?asset'
+import amd_logo_black from '/@res/amd_logo_black.png?asset'
 
 const icons: Array<Array<string>> = [
   [amd_logo_dark, amd_logo_black],
