@@ -16,10 +16,10 @@ Development is focused on compatibility with latest Ubuntu, but should be mostly
 
 ### MVP
 
-- [ ] per-interaction admin authentication (sudo/UAC) for getting and setting `ryzenadj`
+- [x] per-interaction admin authentication (sudo/UAC) for getting and setting `ryzenadj`
 - [ ] tray icon for showing current config and setting values
 - [ ] main window for editing current config and setting tray options
-- [ ] app runs with only tray icon after main window is closed
+- [x] app runs with only tray icon after main window is closed
 - [ ] settings persistence
 - [ ] snap and AppImage packaging
 
@@ -41,6 +41,18 @@ Development is focused on compatibility with latest Ubuntu, but should be mostly
 ## Usage
 
 It should be straightforward. For details on various parameters, see the RyzenAdj docs.
+
+### Log Level
+
+By default, the "production" app logs at the `INFO (3)` log level. In development, it defaults to `SILLY (0)` (all messages).
+
+To override the defaults, there are two flags:
+
+- `DEBUG_LOG=true` - sets log level to `DEBUG (2)`
+- `LOG_LEVEL=x` - sets log level to `x`, where `x` is a number 0-6:
+  - 0: silly, 1: trace, 2: debug, 3: info, 4: warn, 5: error, 6: fatal
+
+- [ ] TODO: Allow toggling `DEBUG_LOG` via the UI
 
 ### Ubuntu
 

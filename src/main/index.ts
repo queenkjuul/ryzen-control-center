@@ -1,12 +1,14 @@
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import { app, BrowserWindow, ipcMain, Menu, nativeTheme, shell, Tray } from 'electron'
 import { join } from 'path'
-import { IpcResponse } from '../types/ipcResponse'
+import { IpcResponse } from '../types/ipc'
 import { APP_NAME } from './app-name'
 import { getIconPath } from './icon'
 import { logger } from './logger'
 import { getRyzenInfo, setParamAndGetInfo } from './ryzenadj'
-import { ubuntuSetup, ubuntuTeardown } from './ubuntu'
+import { sillySaying } from './util/silly'
+import { ubuntuSetup, ubuntuTeardown } from './util/ubuntu'
+import { version } from '/@/version.js'
 import {
   RyzenInfo,
   RyzenInfoParams,
@@ -14,8 +16,20 @@ import {
   RyzenSetResultAndNewInfo
 } from '/@types/ryzenadj'
 
-logger.info(APP_NAME, ' version 0.1.0 initializing')
-logger.silly('Reticulating Splines...')
+function silly(): void {
+  logger.silly(sillySaying())
+}
+
+console.log(`
+${APP_NAME}
+Version ${version}
+(C) 2025 Queen K Juul
+Distributed under the terms of the GNU GPL v3 License, except where noted
+=========================================================================
+
+`)
+
+silly()
 
 let tray: Tray
 let mainWindow: BrowserWindow
@@ -93,7 +107,8 @@ app.whenReady().then(() => {
     ubuntuSetup()
   }
 
-  // Set up system tray icon
+  // TRAY
+  // ================================
   logger.info('Setting up tray icon')
   tray = new Tray(getIconPath())
   const trayMenu = Menu.buildFromTemplate([
@@ -115,6 +130,7 @@ app.whenReady().then(() => {
   tray.on('click', createWindow)
 
   // APP
+  // =========================================
   logger.info('Setting up app event listners')
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
@@ -125,10 +141,15 @@ app.whenReady().then(() => {
   app.on('will-quit', () => {
     logger.debug('Preparing to quit')
     ubuntuTeardown()
+    silly()
+    logger.silly('Done.')
+    logger.silly('Have a nice day!')
   })
 
   // IPC
+  // =================================================
   logger.info('Setting up IPC listeners and handlers')
+
   ipcMain.on('ping', () => {
     nativeTheme.themeSource = nativeTheme.shouldUseDarkColors ? 'light' : 'dark'
     tray.setImage(getIconPath())
@@ -165,6 +186,8 @@ app.whenReady().then(() => {
       }
     }
   )
+
+  logger.info('Main process initialized')
 })
 
 // In this file you can include the rest of your app's specific main process

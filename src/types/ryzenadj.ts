@@ -2,6 +2,7 @@ export type RyzenInfoFields =
   | 'CPU_FAMILY'
   | 'SMU_BIOS'
   | 'RYZENADJ_VERSION'
+  | 'PM_TABLE_VERSION'
   | 'STAPM_LIMIT'
   | 'STAPM_VALUE'
   | 'PPT_LIMIT_FAST'

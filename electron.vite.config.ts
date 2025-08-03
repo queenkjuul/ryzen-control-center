@@ -1,6 +1,6 @@
 import react from '@vitejs/plugin-react'
 import { defineConfig, externalizeDepsPlugin } from 'electron-vite'
-import path, { resolve } from 'path'
+import path from 'path'
 
 export default defineConfig({
   main: {
@@ -8,7 +8,9 @@ export default defineConfig({
     resolve: {
       alias: {
         '/@': path.resolve(__dirname, './src'),
-        '/@res': path.resolve(__dirname, './resources')
+        '/@res': path.resolve(__dirname, './resources'),
+        '/@types': path.resolve(__dirname, './src/types'),
+        '/@test': path.resolve(__dirname, './src/test')
       }
     }
   },
@@ -17,14 +19,19 @@ export default defineConfig({
     resolve: {
       alias: {
         '/@': path.resolve(__dirname, './src'),
-        '/@res': path.resolve(__dirname, './resources')
+        '/@res': path.resolve(__dirname, './resources'),
+        '/@types': path.resolve(__dirname, './src/types'),
+        '/@test': path.resolve(__dirname, './src/test')
       }
     }
   },
   renderer: {
     resolve: {
       alias: {
-        '@renderer': resolve('src/renderer/src')
+        '/@renderer': path.resolve(__dirname, './src/renderer/src'),
+        '/@res': path.resolve(__dirname, './resources'),
+        '/@types': path.resolve(__dirname, './src/types'),
+        '/@test': path.resolve(__dirname, './src/test')
       }
     },
     plugins: [react()]

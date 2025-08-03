@@ -1,5 +1,5 @@
 import { ElectronAPI } from '@electron-toolkit/preload'
-import { IpcResponse } from '/@types/ipcResponse'
+import { IpcResponse } from '/@types/ipc'
 import { RyzenInfo } from '/@types/ryzenadj'
 
 declare global {

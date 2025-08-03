@@ -31,6 +31,8 @@ export function parseRyzenAdjInfo(output: string): RyzenInfo {
     } else if (line.startsWith('Version:')) {
       result['RYZENADJ_VERSION'] = getValue(line)
       continue
+    } else if (line.startsWith('PM Table')) {
+      result['PM_TABLE_VERSION'] = getValue(line)
     } else if (line.includes('Name') && line.includes('Value')) {
       headerIdx = i
       break

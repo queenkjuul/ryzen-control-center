@@ -1,5 +1,5 @@
 import { execSync } from 'child_process'
-import { logger } from './logger'
+import { logger } from '../logger'
 import { lsbRelease } from './lsb-release'
 
 let systemUlimitS, systemUlimitH

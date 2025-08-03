@@ -19,7 +19,7 @@
 'use strict'
 
 import fs from 'fs'
-import { logger } from './logger'
+import { logger } from '../logger'
 
 export function lsbRelease(): {
   DISTRIB_ID?: string
