@@ -1,19 +1,34 @@
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import { app, BrowserWindow, ipcMain, Menu, nativeTheme, shell, Tray } from 'electron'
 import { join } from 'path'
+import { IpcResponse } from '../types/ipcResponse'
+import { APP_NAME } from './app-name'
 import { getIconPath } from './icon'
+import { logger } from './logger'
+import { getRyzenInfo, setParamAndGetInfo } from './ryzenadj'
+import { ubuntuSetup, ubuntuTeardown } from './ubuntu'
+import {
+  RyzenInfo,
+  RyzenInfoParams,
+  RyzenInfoValue,
+  RyzenSetResultAndNewInfo
+} from '/@types/ryzenadj'
 
-const APP_NAME = 'Ryzen Control Center'
+logger.info(APP_NAME, ' version 0.1.0 initializing')
+logger.silly('Reticulating Splines...')
 
 let tray: Tray
 let mainWindow: BrowserWindow
+let forceQuit = false
 
 function createWindow(): void {
   if (mainWindow) {
+    logger.info('Showing main window')
     mainWindow.show()
     return
   }
 
+  logger.info('Creating main window')
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 900,
@@ -32,7 +47,16 @@ function createWindow(): void {
     mainWindow.show()
   })
 
+  mainWindow.on('close', (event) => {
+    logger.debug('mainWindow close', event)
+    if (mainWindow.isVisible() && !forceQuit) {
+      event.preventDefault()
+      mainWindow.hide()
+    }
+  })
+
   mainWindow.webContents.setWindowOpenHandler((details) => {
+    logger.info('Opening external window')
     shell.openExternal(details.url)
     return { action: 'deny' }
   })
@@ -55,49 +79,93 @@ app.whenReady().then(() => {
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
 
+  // gather system information - sudo-prompt won't work right on Ubuntu 25+ without a workaround.
+  // I've raised an issue with the polkit team as this problem affects all node processes,
+  // not just VSCode:
+  //
+  // https://github.com/polkit-org/polkit/issues/572
+  //
+  // workaround comes from here:
+  //
+  // https://github.com/microsoft/vscode/issues/237427#issuecomment-2582881451
+  logger.info('Gathering system information')
+  if (process.platform === 'linux') {
+    ubuntuSetup()
+  }
+
   // Set up system tray icon
+  logger.info('Setting up tray icon')
   tray = new Tray(getIconPath())
   const trayMenu = Menu.buildFromTemplate([
     { label: 'Ryzen Control Center', type: 'normal', click: createWindow },
     { type: 'separator' },
-    { label: 'Exit', type: 'normal', click: () => app.quit() }
+    {
+      label: 'Exit',
+      type: 'normal',
+      click: () => {
+        logger.debug('Exit tray button clicked')
+        forceQuit = true
+        app.quit()
+      }
+    }
   ])
   tray.setContextMenu(trayMenu)
   tray.setTitle(APP_NAME)
   tray.setToolTip(APP_NAME)
   tray.on('click', createWindow)
 
+  // APP
+  logger.info('Setting up app event listners')
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
   // see https://github.com/alex8088/electron-toolkit/tree/master/packages/utils
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
   })
+  app.on('will-quit', () => {
+    logger.debug('Preparing to quit')
+    ubuntuTeardown()
+  })
 
-  // IPC test
+  // IPC
+  logger.info('Setting up IPC listeners and handlers')
   ipcMain.on('ping', () => {
     nativeTheme.themeSource = nativeTheme.shouldUseDarkColors ? 'light' : 'dark'
     tray.setImage(getIconPath())
     mainWindow.setIcon(getIconPath())
   })
 
-  // createWindow()
+  ipcMain.handle('getRyzenInfo', async (): Promise<IpcResponse<RyzenInfo>> => {
+    logger.info('Client requested RyzenInfo')
+    try {
+      const data = await getRyzenInfo()
+      logger.debug('ryzenadj -i parsed output \n', data)
+      return { data }
+    } catch (error) {
+      logger.error(error)
+      return { error }
+    }
+  })
 
-  // app.on('activate', function () {
-  //   // On macOS it's common to re-create a window in the app when the
-  //   // dock icon is clicked and there are no other windows open.
-  //   if (BrowserWindow.getAllWindows().length === 0) createWindow()
-  // })
+  ipcMain.handle(
+    'setRyzenParam',
+    async (
+      event,
+      param: RyzenInfoParams,
+      value: RyzenInfoValue | null
+    ): Promise<IpcResponse<RyzenSetResultAndNewInfo>> => {
+      logger.info(`Client requested set ${param} to ${value}`)
+      logger.debug('setRyzenParam Event: \n', event)
+      try {
+        const data = await setParamAndGetInfo(param, value)
+        return { data }
+      } catch (error) {
+        logger.error(error)
+        return { error }
+      }
+    }
+  )
 })
-
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
-// app.on('window-all-closed', () => {
-//   if (process.platform !== 'darwin') {
-//     app.quit()
-//   }
-// })
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.

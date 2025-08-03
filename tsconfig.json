@@ -4,7 +4,8 @@
   "compilerOptions": {
     "paths": {
       "/@/*": ["./src/*"],
-      "/@res/*": ["./resources/*"]
+      "/@res/*": ["./resources/*"],
+      "/@types/*": ["./src/types/*"]
     }
   }
 }

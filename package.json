@@ -24,7 +24,9 @@
     "@electron-toolkit/preload": "^3.0.2",
     "@electron-toolkit/utils": "^4.0.0",
     "electron-settings": "^4.0.4",
-    "electron-updater": "^6.3.9"
+    "electron-updater": "^6.3.9",
+    "sudo-prompt": "^9.2.1",
+    "tslog": "^4.9.3"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config-prettier": "^3.0.0",

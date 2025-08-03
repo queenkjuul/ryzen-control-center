@@ -1,0 +1,43 @@
+detected compatible ryzen_smu kernel module
+SMU_SERVICE REQ_ID:0x3
+SMU_SERVICE REQ: arg0: 0x0, arg1:0x0, arg2:0x0, arg3:0x0, arg4: 0x0, arg5: 0x0
+SMU_SERVICE REP: REP: 0x1, arg0: 0x12, arg1:0x0, arg2:0x0, arg3:0x0, arg4: 0x0, arg5: 0x0
+init_table
+SMU_SERVICE REQ_ID:0x6
+SMU_SERVICE REQ: arg0: 0x0, arg1:0x0, arg2:0x0, arg3:0x0, arg4: 0x0, arg5: 0x0
+SMU_SERVICE REP: REP: 0x1, arg0: 0x400005, arg1:0x0, arg2:0x0, arg3:0x0, arg4: 0x0, arg5: 0x0
+SMU_SERVICE REQ_ID:0x66
+SMU_SERVICE REQ: arg0: 0x0, arg1:0x0, arg2:0x0, arg3:0x0, arg4: 0x0, arg5: 0x0
+SMU_SERVICE REP: REP: 0x1, arg0: 0xec2f4000, arg1:0x0, arg2:0x0, arg3:0x0, arg4: 0x0, arg5: 0x0
+CPU Family: Cezanne
+SMU BIOS Interface Version: 18
+Version: v0.17.0 
+PM Table Version: 400005
+|        Name         |   Value   |     Parameter      |
+|---------------------|-----------|--------------------|
+| STAPM LIMIT         |    45.000 | stapm-limit        |
+| STAPM VALUE         |     8.900 |                    |
+| PPT LIMIT FAST      |    65.000 | fast-limit         |
+| PPT VALUE FAST      |    11.681 |                    |
+| PPT LIMIT SLOW      |    54.000 | slow-limit         |
+| PPT VALUE SLOW      |    11.608 |                    |
+| StapmTimeConst      |   275.000 | stapm-time         |
+| SlowPPTTimeConst    |     5.000 | slow-time          |
+| PPT LIMIT APU       |    42.000 | apu-slow-limit     |
+| PPT VALUE APU       |    11.608 |                    |
+| TDC LIMIT VDD       |    51.000 | vrm-current        |
+| TDC VALUE VDD       |     6.117 |                    |
+| TDC LIMIT SOC       |    15.000 | vrmsoc-current     |
+| TDC VALUE SOC       |     2.067 |                    |
+| EDC LIMIT VDD       |   105.000 | vrmmax-current     |
+| EDC VALUE VDD       |    55.434 |                    |
+| EDC LIMIT SOC       |    20.000 | vrmsocmax-current  |
+| EDC VALUE SOC       |     0.000 |                    |
+| THM LIMIT CORE      |    95.000 | tctl-temp          |
+| THM VALUE CORE      |    55.262 |                    |
+| STT LIMIT APU       |     0.000 | apu-skin-temp      |
+| STT VALUE APU       |     0.000 |                    |
+| STT LIMIT dGPU      |     0.000 | dgpu-skin-temp     |
+| STT VALUE dGPU      |     0.000 |                    |
+| CCLK Boost SETPOINT |    50.000 | power-saving /     |
+| CCLK BUSY VALUE     |    26.429 | max-performance    |

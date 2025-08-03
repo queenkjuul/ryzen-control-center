@@ -1,7 +1,11 @@
 import { contextBridge, ipcRenderer } from 'electron'
+import { RyzenInfoParams, RyzenInfoValue } from '../types/ryzenadj'
 
 // Custom APIs for renderer
 const api = {
+  getRyzenInfo: () => ipcRenderer.invoke('getRyzenInfo'),
+  setRyzenParam: (param: RyzenInfoParams, value: RyzenInfoValue) =>
+    ipcRenderer.invoke('setRyzenParam', param, value),
   ping: () => ipcRenderer.send('ping'),
   versions: process.versions
 }
