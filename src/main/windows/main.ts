@@ -1,10 +1,10 @@
 import { is } from '@electron-toolkit/utils'
 import { BrowserWindow, shell } from 'electron'
 import { join } from 'path'
-import { APP_NAME } from '../config/app-name'
-import { logger } from '../config/logger'
-import { getIconPath } from '../util/icon'
+import { APP_NAME } from '/@/main/config/app-name'
+import { logger } from '/@/main/config/logger'
 import { appState } from '/@/main/state'
+import { getIconPath } from '/@/main/util/icon'
 
 let { mainWindow } = appState
 const { forceQuit } = appState

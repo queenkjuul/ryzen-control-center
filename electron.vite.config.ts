@@ -1,3 +1,4 @@
+import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 import { defineConfig, externalizeDepsPlugin } from 'electron-vite'
 import path from 'path'
@@ -9,6 +10,7 @@ export default defineConfig({
       alias: {
         '/@': path.resolve(__dirname, './src'),
         '/@res': path.resolve(__dirname, './resources'),
+        '/@config': path.resolve(__dirname, './src/config'),
         '/@types': path.resolve(__dirname, './src/types'),
         '/@test': path.resolve(__dirname, './src/test')
       }
@@ -20,6 +22,7 @@ export default defineConfig({
       alias: {
         '/@': path.resolve(__dirname, './src'),
         '/@res': path.resolve(__dirname, './resources'),
+        '/@config': path.resolve(__dirname, './src/config'),
         '/@types': path.resolve(__dirname, './src/types'),
         '/@test': path.resolve(__dirname, './src/test')
       }
@@ -34,6 +37,6 @@ export default defineConfig({
         '/@test': path.resolve(__dirname, './src/test')
       }
     },
-    plugins: [react()]
+    plugins: [react(), tailwindcss()]
   }
 })

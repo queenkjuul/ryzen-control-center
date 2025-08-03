@@ -14,8 +14,12 @@
     "paths": {
       "/@/*": ["./src/*"],
       "/@res/*": ["./resources/*"],
+      "/@config/*": ["./src/config/*"],
       "/@types/*": ["./src/types/*"],
       "/@test/*": ["./src/test/*"]
-    }
+    },
+    "target": "esnext",
+    "module": "es2015",
+    "moduleResolution": "bundler"
   }
 }

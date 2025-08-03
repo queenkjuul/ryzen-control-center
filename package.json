@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Quick and dirty RyzenAdj GUI for Linux",
   "main": "./out/main/index.js",
-  "author": "example.com",
+  "author": "https://github.com/queenkjuul",
   "homepage": "https://github.com/queenkjuul/ryzen-control-center",
   "scripts": {
     "format": "prettier --write .",
@@ -24,9 +24,12 @@
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.2",
     "@electron-toolkit/utils": "^4.0.0",
+    "@tailwindcss/vite": "^4.1.11",
+    "daisyui": "^5.0.50",
     "electron-settings": "^4.0.4",
     "electron-updater": "^6.3.9",
     "sudo-prompt": "^9.2.1",
+    "tailwindcss": "^4.1.11",
     "tslog": "^4.9.3"
   },
   "devDependencies": {

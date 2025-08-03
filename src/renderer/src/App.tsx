@@ -13,7 +13,7 @@ function App(): React.JSX.Element {
 
   return (
     <>
-      <img alt="logo" className="logo" src={electronLogo} />
+      <img alt="logo" className="logo h-24 w-24" src={electronLogo} />
       <div className="creator">Powered by electron-vite</div>
       <div className="text">
         Build an Electron app with <span className="react">React</span>
@@ -22,28 +22,28 @@ function App(): React.JSX.Element {
       <p className="tip">
         Please try pressing <code>F12</code> to open the devTool
       </p>
-      <div className="actions">
-        <div className="action">
+      <div className="flex flex-row w-full gap-2 justify-around">
+        <button className="btn">
           <a href="https://electron-vite.org/" target="_blank" rel="noreferrer">
             Documentation
           </a>
-        </div>
-        <div className="action">
+        </button>
+        <button className="btn">
           <a target="_blank" rel="noreferrer" onClick={ipcHandle}>
-            Send IPC
+            Toggle Dark/Light Mode
           </a>
-        </div>
-        <div className="action">
+        </button>
+        <button className="btn btn-accent">
           <a target="_blank" rel="noreferrer" onClick={getRyzenInfo}>
             Get RyzenInfo
           </a>
-        </div>
-        <div className="action">
+        </button>
+        <button className="btn btn-secondary">
           <a target="_blank" rel="noreferrer" onClick={() => setRyzenParam('power-saving', null)}>
             Set power-saving
           </a>
-        </div>
-        <div className="action">
+        </button>
+        <button className="btn btn-primary">
           <a
             target="_blank"
             rel="noreferrer"
@@ -51,7 +51,7 @@ function App(): React.JSX.Element {
           >
             Set max-performance
           </a>
-        </div>
+        </button>
       </div>
       <Versions></Versions>
     </>

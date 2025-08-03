@@ -1,171 +1,160 @@
-@import './base.css';
-
-body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  background-image: url('./wavy-lines.svg');
-  background-size: cover;
-  user-select: none;
+@import 'tailwindcss';
+@plugin "daisyui" {
+  themes: all;
 }
 
-code {
-  font-weight: 600;
-  padding: 3px 5px;
-  border-radius: 2px;
-  background-color: var(--color-background-mute);
-  font-family:
-    ui-monospace,
-    SFMono-Regular,
-    SF Mono,
-    Menlo,
-    Consolas,
-    Liberation Mono,
-    monospace;
-  font-size: 85%;
+@font-face {
+  font-family: 'Pass A38';
+  src: url('./Pass_A38.woff2');
 }
 
-#root {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  margin-bottom: 80px;
-}
-
-.logo {
-  margin-bottom: 20px;
-  -webkit-user-drag: none;
-  height: 128px;
-  width: 128px;
-  will-change: filter;
-  transition: filter 300ms;
-}
-
-.logo:hover {
-  filter: drop-shadow(0 0 1.2em #6988e6aa);
-}
-
-.creator {
-  font-size: 14px;
-  line-height: 16px;
-  color: var(--ev-c-text-2);
-  font-weight: 600;
-  margin-bottom: 10px;
-}
-
-.text {
-  font-size: 28px;
-  color: var(--ev-c-text-1);
-  font-weight: 700;
-  line-height: 32px;
-  text-align: center;
-  margin: 0 10px;
-  padding: 16px 0;
-}
-
-.tip {
-  font-size: 16px;
-  line-height: 24px;
-  color: var(--ev-c-text-2);
-  font-weight: 600;
-}
-
-.react {
-  background: -webkit-linear-gradient(315deg, #087ea4 55%, #7c93ee);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: 700;
-}
-
-.ts {
-  background: -webkit-linear-gradient(315deg, #3178c6 45%, #f0dc4e);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: 700;
-}
-
-.actions {
-  display: flex;
-  padding-top: 32px;
-  margin: -6px;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-}
-
-.action {
-  flex-shrink: 0;
-  padding: 6px;
-}
-
-.action a {
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-block;
-  border: 1px solid transparent;
-  text-align: center;
-  font-weight: 600;
-  white-space: nowrap;
-  border-radius: 20px;
-  padding: 0 20px;
-  line-height: 38px;
-  font-size: 14px;
-  border-color: var(--ev-button-alt-border);
-  color: var(--ev-button-alt-text);
-  background-color: var(--ev-button-alt-bg);
-}
-
-.action a:hover {
-  border-color: var(--ev-button-alt-hover-border);
-  color: var(--ev-button-alt-hover-text);
-  background-color: var(--ev-button-alt-hover-bg);
-}
-
-.versions {
-  position: absolute;
-  bottom: 30px;
-  margin: 0 auto;
-  padding: 15px 0;
-  font-family: 'Menlo', 'Lucida Console', monospace;
-  display: inline-flex;
-  overflow: hidden;
-  align-items: center;
-  border-radius: 22px;
-  background-color: #202127;
-  backdrop-filter: blur(24px);
-}
-
-.versions li {
-  display: block;
-  float: left;
-  border-right: 1px solid var(--ev-c-gray-1);
-  padding: 0 20px;
-  font-size: 14px;
-  line-height: 14px;
-  opacity: 0.8;
-  &:last-child {
-    border: none;
+@layer base {
+  html {
+    font-family: 'Pass A38', system-ui, sans-serif;
+    font-size: larger;
   }
 }
 
-@media (max-width: 720px) {
-  .text {
-    font-size: 20px;
-  }
+/* DARK THEME */
+@plugin "daisyui/theme" {
+  name: 'amd-dark';
+  default: false;
+  prefersdark: true;
+  color-scheme: 'dark';
+  --color-base-100: oklch(27.34% 0.0059 337.74);
+  --color-base-200: oklch(24.34% 0.0059 337.74);
+  --color-base-300: oklch(21.34% 0.0059 337.74);
+  --color-base-content: oklch(84.87% 0 0);
+  --color-primary: #f16623;
+  --color-primary-content: oklch(100% 0 0);
+  --color-secondary: oklch(64% 0.246 16.439);
+  --color-secondary-content: oklch(98% 0.003 247.858);
+  --color-accent: #7b1d8f;
+  --color-accent-content: oklch(98% 0.003 247.858);
+  --color-neutral: oklch(33.34% 0.0059 337.74);
+  --color-neutral-content: oklch(98% 0.003 247.858);
+  --color-info: #117c9c;
+  --color-info-content: oklch(12.523% 0.028 240.033);
+  --color-success: #5eb42c;
+  --color-success-content: oklch(14.045% 0.018 156.596);
+  --color-warning: oklch(85% 0.199 91.936);
+  --color-warning-content: oklch(15.496% 0.023 81.519);
+  --color-error: #c43a17;
+  --color-error-content: oklch(14.045% 0.018 156.596);
+  --radius-selector: 0rem;
+  --radius-field: 0rem;
+  --radius-box: 0.25rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
 }
 
-@media (max-width: 620px) {
-  .versions {
-    display: none;
-  }
+/* LIGHT THEME - DEFAULT */
+@plugin "daisyui/theme" {
+  name: 'amd-light';
+  default: true;
+  prefersdark: false;
+  color-scheme: 'light';
+  --color-base-100: oklch(100% 0 0);
+  --color-base-200: oklch(93% 0 0);
+  --color-base-300: oklch(86% 0 0);
+  --color-base-content: oklch(22.389% 0.031 278.072);
+  --color-primary: #f16623;
+  --color-primary-content: oklch(100% 0 0);
+  --color-secondary: #d1103d;
+  --color-secondary-content: oklch(100% 0 0);
+  --color-accent: #7b1d90;
+  --color-accent-content: oklch(100% 0 0);
+  --color-neutral: #221f21;
+  --color-neutral-content: oklch(100% 0 0);
+  --color-info: oklch(60% 0.126 221.723);
+  --color-info-content: oklch(0% 0 0);
+  --color-success: #99d41e;
+  --color-success-content: oklch(0% 0 0);
+  --color-warning: oklch(90% 0.182 98.111);
+  --color-warning-content: oklch(0% 0 0);
+  --color-error: #ee1b24;
+  --color-error-content: oklch(0% 0 0);
+  --radius-selector: 0rem;
+  --radius-field: 0rem;
+  --radius-box: 0.25rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
 }
 
-@media (max-width: 350px) {
-  .tip,
-  .actions {
-    display: none;
-  }
+/* HIGH-CONTRAST - LIGHT */
+@plugin "daisyui/theme" {
+  name: 'amd-light-hic';
+  default: false;
+  prefersdark: false;
+  color-scheme: 'light';
+  --color-base-100: oklch(100% 0 0);
+  --color-base-200: oklch(97% 0.001 106.424);
+  --color-base-300: oklch(92% 0.003 48.717);
+  --color-base-content: oklch(0% 0 0);
+  --color-primary: oklch(24.34% 0.0059 337.74);
+  --color-primary-content: oklch(100% 0 0);
+  --color-secondary: oklch(24.34% 0.0059 337.74);
+  --color-secondary-content: oklch(100% 0 0);
+  --color-accent: oklch(24.34% 0.0059 337.74);
+  --color-accent-content: oklch(100% 0 0);
+  --color-neutral: oklch(20% 0 0);
+  --color-neutral-content: oklch(100% 0 0);
+  --color-info: #00abb8;
+  --color-info-content: oklch(0% 0 0);
+  --color-success: #99d41e;
+  --color-success-content: oklch(0% 0 0);
+  --color-warning: oklch(85% 0.199 91.936);
+  --color-warning-content: oklch(0% 0 0);
+  --color-error: #ee1926;
+  --color-error-content: oklch(0% 0 0);
+  --radius-selector: 0rem;
+  --radius-field: 0rem;
+  --radius-box: 0.25rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 2px;
+  --depth: 1;
+  --noise: 0;
+}
+
+/* HIGH-CONTRAST - DARK */
+@plugin "daisyui/theme" {
+  name: 'amd-dark-hic';
+  default: false;
+  prefersdark: false;
+  color-scheme: 'dark';
+  --color-base-100: oklch(0% 0 0);
+  --color-base-200: oklch(19% 0 0);
+  --color-base-300: oklch(24% 0 0);
+  --color-base-content: oklch(100% 0 0);
+  --color-primary: oklch(97% 0.001 106.424);
+  --color-primary-content: oklch(0% 0 0);
+  --color-secondary: oklch(97% 0.001 106.424);
+  --color-secondary-content: oklch(0% 0 0);
+  --color-accent: oklch(97% 0.001 106.424);
+  --color-accent-content: oklch(0% 0 0);
+  --color-neutral: oklch(97% 0.001 106.424);
+  --color-neutral-content: oklch(0% 0 0);
+  --color-info: oklch(45.201% 0.313 264.052);
+  --color-info-content: oklch(100% 0 0);
+  --color-success: oklch(51.975% 0.176 142.495);
+  --color-success-content: oklch(100% 0 0);
+  --color-warning: oklch(96.798% 0.211 109.769);
+  --color-warning-content: oklch(19.359% 0.042 109.769);
+  --color-error: oklch(62.795% 0.257 29.233);
+  --color-error-content: oklch(12.559% 0.051 29.233);
+  --radius-selector: 0rem;
+  --radius-field: 0rem;
+  --radius-box: 0.25rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
 }

@@ -8,7 +8,7 @@ Maybe someday, less quick and dirty, and instead a D-Bus client for [`ryzend`](h
 
 Inspired by the now-abandoned [Ryzen Controller](https://gitlab.com/ryzen-controller-team/ryzen-controller), designed for simple tray-focused interaction.
 
-Built with Electron, Vite, React, and Tailwind.
+Built with Electron, Vite, React, Tailwind, and DaisyUI.
 
 Development is focused on compatibility with latest Ubuntu, but should be mostly platform-independent.
 
