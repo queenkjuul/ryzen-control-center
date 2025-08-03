@@ -13,6 +13,7 @@ declare global {
       ) => IpcResponse<{ setResult: string; newInfo: RyzenInfo }>
       ping: VoidFunction
       versions: NodeJS.ProcessVersions
+      appVersion: string
     }
   }
 }
