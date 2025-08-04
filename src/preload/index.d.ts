@@ -1,6 +1,7 @@
 import { ElectronAPI } from '@electron-toolkit/preload'
+import type { NativeTheme } from 'electron'
+import { RyzenInfo } from '../types/ryzenadj/param-maps'
 import { IpcResponse } from '/@types/ipc'
-import { RyzenInfo } from '/@types/ryzenadj'
 
 declare global {
   interface Window {
@@ -14,6 +15,7 @@ declare global {
       ping: VoidFunction
       versions: NodeJS.ProcessVersions
       appVersion: string
+      nativeTheme: NativeTheme
     }
   }
 }
