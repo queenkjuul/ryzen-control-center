@@ -1,3 +1,5 @@
+import { RyzenInfoParamsMap } from './param-maps'
+
 export type RyzenInfoFields =
   | 'CPU_FAMILY'
   | 'SMU_BIOS'
@@ -32,24 +34,6 @@ export type RyzenInfoFields =
   | 'POWER_SAVING'
   | 'MAX_PERFORMANCE'
 
-export const RyzenInfoParamsMap = {
-  STAPM_LIMIT: 'stapm-limit',
-  PPT_LIMIT_FAST: 'fast-limit',
-  PPT_LIMIT_SLOW: 'slow-limit',
-  StapmTimeConst: 'stapm-time',
-  SlowPPTTimeConst: 'slow-time',
-  PPT_LIMIT_APU: 'apu-slow-limit',
-  TDC_LIMIT_VDD: 'vrm-current',
-  TDC_LIMIT_SOC: 'vrmsoc-current',
-  EDC_LIMIT_VDD: 'vrmmax-current',
-  EDC_LIMIT_SOC: 'vrmsocmax-current',
-  THM_LIMIT_CORE: 'tctl-temp',
-  STT_LIMIT_APU: 'apu-skin-temp',
-  STT_LIMIT_dGPU: 'dgpu-skin-temp',
-  POWER_SAVING: 'power-saving',
-  MAX_PERFORMANCE: 'max-performance'
-} as const
-
 export type RyzenInfoKeys = keyof typeof RyzenInfoParamsMap
 export type RyzenInfoParams = (typeof RyzenInfoParamsMap)[RyzenInfoKeys]
 export type RyzenInfoValue = number | string | null
@@ -59,3 +43,47 @@ export type RyzenInfo = Partial<
 >
 
 export type RyzenSetResultAndNewInfo = { setResult: boolean; newInfo: RyzenInfo }
+
+export type RyzenInputParams =
+  | 'stapm-limit'
+  | 'fast-limit'
+  | 'slow-limit'
+  | 'slow-time'
+  | 'stapm-time'
+  | 'tctl-temp'
+  | 'vrm-current'
+  | 'vrmsoc-current'
+  | 'vrmgfx-current'
+  | 'vrmcvip-current'
+  | 'vrmmax-current'
+  | 'vrmsocmax-current'
+  | 'vrmgfxmax_current'
+  | 'psi0-current'
+  | 'psi3cpu_current'
+  | 'psi0soc-current'
+  | 'psi3gfx_current'
+  | 'max-socclk-frequency'
+  | 'min-socclk-frequency'
+  | 'max-fclk-frequency'
+  | 'min-fclk-frequency'
+  | 'max-vcn'
+  | 'min-vcn'
+  | 'max-lclk'
+  | 'min-lclk'
+  | 'max-gfxclk'
+  | 'min-gfxclk'
+  | 'prochot-deassertion-ramp'
+  | 'apu-skin-temp'
+  | 'dgpu-skin-temp'
+  | 'apu-slow-limit'
+  | 'skin-temp-limit'
+  | 'gfx-clk'
+  | 'oc-clk'
+  | 'oc-volt'
+  | 'enable-oc'
+  | 'disable-oc'
+  | 'set-coall'
+  | 'set-coper'
+  | 'set-cogfx'
+  | 'power-saving'
+  | 'max-performance'

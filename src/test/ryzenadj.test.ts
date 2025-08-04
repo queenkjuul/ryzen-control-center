@@ -4,7 +4,8 @@ import fs from 'fs'
 import path from 'path'
 import { describe, expect, it } from 'vitest'
 import { parseRyzenAdjInfo } from '/@/main/ryzenadj'
-import { RyzenInfoFields, RyzenInfoParamsMap, RyzenInfoValue } from '/@types/ryzenadj'
+import type { RyzenInfoFields, RyzenInfoValue } from '/@/types/ryzenadj/ryzenadj'
+import { RyzenInfoParamsMap } from '/@types/ryzenadj/param-maps'
 
 describe('parseRyzenAdjInfo', () => {
   it('parses ryzenadj -i output correctly', () => {

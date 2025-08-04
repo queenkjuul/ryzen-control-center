@@ -1,12 +1,12 @@
 import sudo from 'sudo-prompt'
 import { APP_NAME as name } from './config/app-name'
 import { logger } from './config/logger'
-import {
+import type {
   RyzenInfo,
   RyzenInfoParams,
   RyzenInfoValue,
   RyzenSetResultAndNewInfo
-} from '/@types/ryzenadj'
+} from '/@/types/ryzenadj/ryzenadj'
 
 const SUCCESS_STRING = 'Sucessfully' // upstream typo in RyzenAdj
 

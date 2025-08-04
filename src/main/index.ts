@@ -9,13 +9,13 @@ import { ubuntuSetup, ubuntuTeardown } from './ubuntu'
 import { getIconPath } from './util/icon'
 import { sillySaying } from './util/silly'
 import { createWindow } from './windows/main'
-import { version } from '/@/version.js'
-import {
+import type {
   RyzenInfo,
   RyzenInfoParams,
   RyzenInfoValue,
   RyzenSetResultAndNewInfo
-} from '/@types/ryzenadj'
+} from '/@/types/ryzenadj/ryzenadj'
+import { version } from '/@/version.js'
 
 function silly(): void {
   logger.silly(sillySaying())
