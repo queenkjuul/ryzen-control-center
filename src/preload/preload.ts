@@ -1,4 +1,4 @@
-import { contextBridge, ipcRenderer, nativeTheme } from 'electron'
+import { contextBridge, ipcRenderer } from 'electron'
 import type { RyzenInfoParams, RyzenInfoValue } from '/@/types/ryzenadj/ryzenadj'
 import { version } from '/@/version'
 
@@ -8,9 +8,8 @@ const api = {
   setRyzenParam: (param: RyzenInfoParams, value: RyzenInfoValue) =>
     ipcRenderer.invoke('setRyzenParam', param, value),
   ping: () => ipcRenderer.send('ping'),
-  versions: process.versions,
-  appVersion: version,
-  nativeTheme
+  versions: { ...process.versions, rcc: version },
+  onHighContrast: (callback) => ipcRenderer.on('highContrast', (_event, value) => callback(value))
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

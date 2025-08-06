@@ -4,7 +4,8 @@ const sayings = [
   'Deploying Microservices...',
   'Auto-Updating Serverless Server-Side Renderer...',
   'Pruning Bonsai Trees...',
-  'Calibrating Tachyon Field Fluctuations...'
+  'Calibrating Tachyon Field Fluctuations...',
+  'Packing Camel Cases...'
 ]
 
 export function sillySaying(): string {

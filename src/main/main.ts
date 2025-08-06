@@ -8,7 +8,6 @@ import { appState } from './state'
 import { ubuntuSetup, ubuntuTeardown } from './ubuntu'
 import { getIconPath } from './util/icon'
 import { sillySaying } from './util/silly'
-import { createWindow } from './windows/main'
 import type {
   RyzenInfo,
   RyzenInfoParams,
@@ -34,18 +33,22 @@ silly()
 
 let tray: Tray
 
-const { mainWindow } = appState
-
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   // INIT
   // =================================
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
 
-  // gather system information - sudo-prompt won't work right on Ubuntu 25+ without a workaround.
+  logger.info('Gathering system information')
+
+  // TODO: Need to actually check for ryzenadj binary and short-circuit if not
+  // can it be done before app.whenReady()?
+  // logger.info('Checking for ryzenadj')
+
+  // sudo-prompt (or rather, pkexec) won't work right on Ubuntu 25+ without a workaround.
   // I've raised an issue with the polkit team as this problem affects all node processes,
   // not just VSCode:
   //
@@ -54,17 +57,23 @@ app.whenReady().then(() => {
   // workaround comes from here:
   //
   // https://github.com/microsoft/vscode/issues/237427#issuecomment-2582881451
-  logger.info('Gathering system information')
   if (process.platform === 'linux') {
     ubuntuSetup()
   }
+
+  logger.info('Initializing app state')
+  await appState.initialize()
 
   // TRAY
   // ================================
   logger.info('Setting up tray icon')
   tray = new Tray(getIconPath())
   const trayMenu = Menu.buildFromTemplate([
-    { label: 'Ryzen Control Center', type: 'normal', click: createWindow },
+    {
+      label: 'Open Ryzen Control Center',
+      type: 'normal',
+      click: appState.mainWindow.show
+    },
     { type: 'separator' },
     {
       label: 'Exit',
@@ -79,7 +88,7 @@ app.whenReady().then(() => {
   tray.setContextMenu(trayMenu)
   tray.setTitle(APP_NAME)
   tray.setToolTip(APP_NAME)
-  tray.on('click', createWindow)
+  tray.on('click', appState.mainWindow.show)
 
   // APP
   // =========================================
@@ -102,10 +111,21 @@ app.whenReady().then(() => {
   // =================================================
   logger.info('Setting up IPC listeners and handlers')
 
+  nativeTheme.addListener('updated', () => {
+    appState.mainWindow.webContents.send('highContrast', nativeTheme.shouldUseHighContrastColors)
+    appState.mainWindow.webContents.send('source', nativeTheme.themeSource)
+    console.log(
+      'updated theme',
+      nativeTheme.shouldUseDarkColors,
+      nativeTheme.shouldUseHighContrastColors
+    )
+  })
+
   ipcMain.on('ping', () => {
+    logger.info('Ping! Toggling dark mode')
     nativeTheme.themeSource = nativeTheme.shouldUseDarkColors ? 'light' : 'dark'
     tray.setImage(getIconPath())
-    mainWindow?.setIcon(getIconPath())
+    appState.mainWindow.setIcon(getIconPath())
   })
 
   ipcMain.handle('getRyzenInfo', async (): Promise<IpcResponse<RyzenInfo>> => {

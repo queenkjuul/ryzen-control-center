@@ -39,3 +39,5 @@ export enum Themes {
   winter = 'winter',
   wireframe = 'wireframe'
 }
+
+export type Theme = keyof typeof Themes

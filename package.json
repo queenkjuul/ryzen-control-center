@@ -2,7 +2,7 @@
   "name": "ryzen-control-center",
   "version": "0.1.0",
   "description": "Quick and dirty RyzenAdj GUI for Linux",
-  "main": "./out/main/index.js",
+  "main": "./out/main/main.js",
   "author": "https://github.com/queenkjuul",
   "homepage": "https://github.com/queenkjuul/ryzen-control-center",
   "scripts": {
