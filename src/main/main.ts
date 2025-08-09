@@ -8,6 +8,7 @@ import { appState } from './state'
 import { ubuntuSetup, ubuntuTeardown } from './ubuntu'
 import { getIconPath } from './util/icon'
 import { sillySaying } from './util/silly'
+import type { AppSettings, AppSettingsKey } from '/@/types/app-settings'
 import type {
   RyzenInfo,
   RyzenInfoParams,
@@ -72,7 +73,7 @@ app.whenReady().then(async () => {
     {
       label: 'Open Ryzen Control Center',
       type: 'normal',
-      click: appState.mainWindow.show
+      click: () => appState.mainWindow.show()
     },
     { type: 'separator' },
     {
@@ -88,7 +89,7 @@ app.whenReady().then(async () => {
   tray.setContextMenu(trayMenu)
   tray.setTitle(APP_NAME)
   tray.setToolTip(APP_NAME)
-  tray.on('click', appState.mainWindow.show)
+  tray.on('click', () => appState.mainWindow.show())
 
   // APP
   // =========================================
@@ -121,12 +122,13 @@ app.whenReady().then(async () => {
     )
   })
 
-  ipcMain.on('ping', () => {
-    logger.info('Ping! Toggling dark mode')
-    nativeTheme.themeSource = nativeTheme.shouldUseDarkColors ? 'light' : 'dark'
-    tray.setImage(getIconPath())
-    appState.mainWindow.setIcon(getIconPath())
-  })
+  ipcMain.handle(
+    'setSetting',
+    <K extends AppSettingsKey>(_event, setting: K, value: AppSettings[K]) => {
+      logger.info(`Client requested set ${setting} to ${value}`)
+      return appState.setSetting(setting, value)
+    }
+  )
 
   ipcMain.handle('getRyzenInfo', async (): Promise<IpcResponse<RyzenInfo>> => {
     logger.info('Client requested RyzenInfo')

@@ -1,10 +1,15 @@
 import { BrowserWindow, nativeTheme } from 'electron'
 import settings from 'electron-settings'
 import { logger } from '/@/main/config/logger'
-import { createMainWindow } from '/@/main/window'
+import {
+  appSettingsKeys,
+  type AppSettings,
+  type AppSettingsClass,
+  type AppSettingsKey,
+  type AppSettingsValue,
+  type ThemeSource
+} from '/@/types/app-settings'
 import { Themes, type Theme } from '/@/types/themes'
-
-export type OptionalWindow = BrowserWindow | null
 
 function getDefaultTheme(dark: boolean, highContrast: boolean): Theme {
   return dark
@@ -16,45 +21,70 @@ function getDefaultTheme(dark: boolean, highContrast: boolean): Theme {
       : Themes['amd-light-hic']
 }
 
+const settingsCallbacks: Partial<Record<AppSettingsKey, Function>> = {
+  themeSource: (themeSource: ThemeSource) => {
+    nativeTheme.themeSource = themeSource
+  }
+}
+
 export class AppState {
   public forceQuit = false
 
   private _initialized: boolean = false
 
-  private _dark: boolean
-  private _highContrast: boolean
-  private _theme: Theme
-
-  private _mainWindow: BrowserWindow | undefined
-
-  constructor() {
-    this._dark = nativeTheme.shouldUseDarkColors
-    this._highContrast = nativeTheme.shouldUseHighContrastColors
-    this._theme = getDefaultTheme(this.dark, this.highContrast)
-  }
+  // @ts-ignore gets defined in initialize()
+  private _appSettings: AppSettings
+  // @ts-ignore gets defined in initialize()
+  private _mainWindow: BrowserWindow
 
   public async initialize(): Promise<AppState> {
     logger.info('Loading saved settings')
-    const [theme, dark, highContrast, mainWindow] = await Promise.all([
-      settings.get('theme'),
-      settings.get('dark'),
-      settings.get('highContrast'),
-      createMainWindow()
-    ])
-    if (Object.keys(Themes).includes(theme?.toString() ?? '')) {
-      this._theme = Themes[theme?.toString() ?? '']
+    const storedSettings: Partial<typeof AppSettingsClass> = {}
+    appSettingsKeys
+      .filter((setting) => settings.hasSync(setting))
+      .forEach((setting) => {
+        storedSettings[setting] = settings.getSync(setting) as AppSettingsValue
+        logger.debug(`Setting ${setting} to saved value ${this._appSettings[setting]}`)
+      })
+
+    logger.debug('Checking stored settings values')
+    // DEFAULT SETTINGS VALUES
+    for (const setting of appSettingsKeys) {
+      if (!storedSettings[setting]) {
+        let value
+        switch (setting) {
+          case 'dark':
+            value = nativeTheme.shouldUseDarkColors
+            break
+          case 'highContrast':
+            value = nativeTheme.shouldUseHighContrastColors
+            break
+          case 'theme':
+            value = getDefaultTheme(
+              nativeTheme.shouldUseDarkColors,
+              nativeTheme.shouldUseHighContrastColors
+            )
+            break
+        }
+        logger.debug(`Setting default value for ${setting}: ${value}`)
+        storedSettings[setting] = value
+      }
     }
-    this._dark = !!dark
-    this._highContrast = !!highContrast
-    this._initialized = true
-    this._mainWindow = mainWindow as BrowserWindow
+    // we should be guaranteed to have a full AppSettings object now
+    this._appSettings = storedSettings as AppSettings
+
+    // instantiate windows
+    const { createMainWindow } = await import('/@/main/window')
+    this._mainWindow = await createMainWindow()
     this._mainWindow.on('close', (event) => {
       logger.info('Closing main window')
-      if (mainWindow?.isVisible() && !this.forceQuit) {
+      if (this._mainWindow?.isVisible() && !this.forceQuit) {
         event.preventDefault()
-        mainWindow.hide()
+        this._mainWindow.hide()
       }
     })
+
+    this._initialized = true
     logger.debug('App state initialized: ', this)
     return this
   }
@@ -64,32 +94,30 @@ export class AppState {
   }
 
   get mainWindow(): BrowserWindow {
+    if (!this._initialized) {
+      throw new Error('Cannot access mainWindow before initialization!')
+    }
     return this._mainWindow as BrowserWindow
   }
 
-  get theme(): Theme {
-    return this._theme
+  get appSettings(): AppSettings {
+    if (!this._initialized) {
+      throw new Error('Cannot access appSettings before initialization!')
+    }
+    return this._appSettings as AppSettings
   }
 
-  set theme(theme: Themes) {
-    settings.set('theme', theme)
-    this._theme = theme
+  getSetting(setting: AppSettingsKey): AppSettingsValue {
+    return this.appSettings[setting]
   }
 
-  get dark(): boolean {
-    return this._dark
-  }
-
-  set dark(dark: boolean) {
-    this._dark = dark
-  }
-
-  get highContrast(): boolean {
-    return this._highContrast
-  }
-
-  set highContrast(highContrast: boolean) {
-    this._highContrast = highContrast
+  setSetting<K extends keyof AppSettings>(setting: K, value: AppSettings[K]): AppSettings {
+    settings.setSync(setting, value)
+    this._appSettings[setting] = value
+    if (settingsCallbacks[setting]) {
+      settingsCallbacks[setting](this.appSettings[setting])
+    }
+    return this._appSettings
   }
 }
 

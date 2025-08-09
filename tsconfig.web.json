@@ -16,15 +16,18 @@
       "/@renderer/*": [
         "src/renderer/src/*"
       ],
-      "/@res/*": [
-        "resources/*"
+      "/@lib/*": [
+        "src/renderer/src/lib/*"
+      ],
+      "/@assets/*": [
+        "src/renderer/assets/*"
       ],
       "/@types/*": [
         "src/types/*"
       ],
       "/@test/*": [
         "src/test/*"
-      ]
+      ],
     }
   }
 }

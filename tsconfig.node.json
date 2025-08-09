@@ -19,7 +19,7 @@
       "/@test/*": ["./src/test/*"]
     },
     "target": "esnext",
-    "module": "es2015",
+    "module": "es2020",
     "moduleResolution": "bundler"
   }
 }
