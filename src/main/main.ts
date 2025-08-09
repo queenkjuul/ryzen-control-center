@@ -3,7 +3,7 @@ import { app, ipcMain, Menu, nativeTheme, Tray } from 'electron'
 import { IpcResponse } from '../types/ipc'
 import { APP_NAME } from './config/app-name'
 import { logger } from './config/logger'
-import { getRyzenInfo, setParamAndGetInfo } from './ryzenadj'
+import { getRyzenInfo, setParamAndGetInfo, setRyzenParam } from './ryzenadj'
 import { appState } from './state'
 import { ubuntuSetup, ubuntuTeardown } from './ubuntu'
 import { getIconPath } from './util/icon'
@@ -74,6 +74,17 @@ app.whenReady().then(async () => {
       label: 'Open Ryzen Control Center',
       type: 'normal',
       click: () => appState.mainWindow.show()
+    },
+    { type: 'separator' },
+    {
+      label: 'Set High Performance Mode',
+      type: 'normal',
+      click: () => setRyzenParam('max-performance', null)
+    },
+    {
+      label: 'Set Power Saving Mode',
+      type: 'normal',
+      click: () => setRyzenParam('power-saving', null)
     },
     { type: 'separator' },
     {
