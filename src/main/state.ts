@@ -44,7 +44,7 @@ export class AppState {
       .filter((setting) => settings.hasSync(setting))
       .forEach((setting) => {
         storedSettings[setting] = settings.getSync(setting) as AppSettingsValue
-        logger.debug(`Setting ${setting} to saved value ${this._appSettings[setting]}`)
+        logger.debug(`Setting ${setting} to saved value ${storedSettings[setting]}`)
       })
 
     logger.debug('Checking stored settings values')
