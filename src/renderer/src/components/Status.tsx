@@ -4,7 +4,6 @@ function Status({ cpuFam, powerSave, className = '' }): React.JSX.Element {
       className={`
         text-xs 
         text-base-content
-        h-full 
         border-neutral 
         border 
         grid 

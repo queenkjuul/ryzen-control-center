@@ -4,13 +4,14 @@ import type { SelectOption } from '/@types/ui/select'
 type Props = {
   label: string
   options: SelectOption[]
+  disabled?: boolean
   onChange?: EventHandler<ChangeEvent<HTMLSelectElement>>
 }
-function Select({ label, options, onChange }: Props): React.JSX.Element {
+function Select({ label, options, disabled = false, onChange }: Props): React.JSX.Element {
   return (
     <label className="select">
       <span className="label">{label}</span>
-      <select onChange={onChange}>
+      <select onChange={onChange} disabled={disabled}>
         {...options.map(({ value, label }) => (
           <>
             <option value={value} key={value}>

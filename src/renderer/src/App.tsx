@@ -1,4 +1,4 @@
-import { Cog6ToothIcon, XMarkIcon } from '@heroicons/react/16/solid'
+import { ArrowTopRightOnSquareIcon, Cog6ToothIcon, XMarkIcon } from '@heroicons/react/16/solid'
 import { useEffect, useState } from 'react'
 import darkLogo from './assets/ryzen-logo-dark.png'
 import lightLogo from './assets/ryzen-logo-light.png'
@@ -30,18 +30,19 @@ function App(): React.JSX.Element {
   useEffect(() => {})
 
   return (
-    <div>
+    <div className="flex flex-col h-full">
       <div className="flex flex-row gap-2 items-center justify-around bg-base-200">
         <img alt="logo" className="logo h-24 w-24 hidden dark:block" src={darkLogo} />
         <img alt="logo" className="logo h-24 w-24 dark:hidden" src={lightLogo} />
-        <h1 className="text-3xl">Ryzen Control Center</h1>
+        <h1 className="text-large md:text-3xl">Ryzen Control Center</h1>
         <div className="grow" />
         <Status
+          className="hidden sm:block"
           cpuFam={currentRyzenInfo?.CPU_FAMILY?.value}
           powerSave={currentRyzenInfo?.POWER_SAVING?.value}
         />
         <div className="grow" />
-        <div className="flex flex-col h-full items-end">
+        <div className="flex flex-col">
           <button
             className="btn w-8 h-8 bg-transparent border-none p-0 m-0 mr-2"
             onClick={() => setShowSettings(!showSettings)}
@@ -59,16 +60,11 @@ function App(): React.JSX.Element {
       ) : (
         <>
           <div className="my-2 flex flex-row flex-wrap w-full gap-2 justify-around">
-            <button className="btn">
-              <a href="https://electron-vite.org/" target="_blank" rel="noreferrer">
-                Documentation
-              </a>
-            </button>
-            <button className="btn">
-              <a target="_blank" rel="noreferrer" onClick={() => {}}>
-                Toggle Dark/Light Mode
-              </a>
-            </button>
+            <a href="https://github.com/FlyGoat/RyzenAdj/wiki" target="_blank" rel="noreferrer">
+              <button className="btn">
+                Documentation <ArrowTopRightOnSquareIcon className="w-4 h-4" />
+              </button>
+            </a>
             <button className="btn btn-accent">
               <a target="_blank" rel="noreferrer" onClick={getRyzenInfo}>
                 Get RyzenInfo
@@ -107,7 +103,8 @@ function App(): React.JSX.Element {
           </div>
         </>
       )}
-      <Versions></Versions>
+      <div className="grow" />
+      <Versions className="hidden! sm:flex!"></Versions>
     </div>
   )
 }
