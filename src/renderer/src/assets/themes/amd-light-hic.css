@@ -1,0 +1,35 @@
+/* HIGH-CONTRAST - LIGHT */
+@plugin "daisyui/theme" {
+  name: 'amd-light-hic';
+  default: false;
+  prefersdark: false;
+  color-scheme: 'light';
+  --color-base-100: oklch(100% 0 0);
+  --color-base-200: oklch(97% 0.001 106.424);
+  --color-base-300: oklch(92% 0.003 48.717);
+  --color-base-content: oklch(0% 0 0);
+  --color-primary: oklch(24.34% 0.0059 337.74);
+  --color-primary-content: oklch(100% 0 0);
+  --color-secondary: oklch(24.34% 0.0059 337.74);
+  --color-secondary-content: oklch(100% 0 0);
+  --color-accent: oklch(24.34% 0.0059 337.74);
+  --color-accent-content: oklch(100% 0 0);
+  --color-neutral: oklch(20% 0 0);
+  --color-neutral-content: oklch(100% 0 0);
+  --color-info: #00abb8;
+  --color-info-content: oklch(0% 0 0);
+  --color-success: #99d41e;
+  --color-success-content: oklch(0% 0 0);
+  --color-warning: oklch(85% 0.199 91.936);
+  --color-warning-content: oklch(0% 0 0);
+  --color-error: #ee1926;
+  --color-error-content: oklch(0% 0 0);
+  --radius-selector: 0rem;
+  --radius-field: 0rem;
+  --radius-box: 0.25rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 2px;
+  --depth: 1;
+  --noise: 0;
+}

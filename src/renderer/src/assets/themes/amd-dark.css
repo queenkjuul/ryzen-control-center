@@ -1,0 +1,35 @@
+/* DARK THEME */
+@plugin "daisyui/theme" {
+  name: 'amd-dark';
+  default: false;
+  prefersdark: true;
+  color-scheme: 'dark';
+  --color-base-100: oklch(27.34% 0.0059 337.74);
+  --color-base-200: oklch(24.34% 0.0059 337.74);
+  --color-base-300: oklch(21.34% 0.0059 337.74);
+  --color-base-content: oklch(84.87% 0 0);
+  --color-primary: #f16623;
+  --color-primary-content: oklch(100% 0 0);
+  --color-secondary: oklch(64% 0.246 16.439);
+  --color-secondary-content: oklch(98% 0.003 247.858);
+  --color-accent: #7b1d8f;
+  --color-accent-content: oklch(98% 0.003 247.858);
+  --color-neutral: oklch(33.34% 0.0059 337.74);
+  --color-neutral-content: oklch(98% 0.003 247.858);
+  --color-info: #117c9c;
+  --color-info-content: oklch(12.523% 0.028 240.033);
+  --color-success: #5eb42c;
+  --color-success-content: oklch(14.045% 0.018 156.596);
+  --color-warning: oklch(85% 0.199 91.936);
+  --color-warning-content: oklch(15.496% 0.023 81.519);
+  --color-error: #c43a17;
+  --color-error-content: oklch(14.045% 0.018 156.596);
+  --radius-selector: 0rem;
+  --radius-field: 0rem;
+  --radius-box: 0.25rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}

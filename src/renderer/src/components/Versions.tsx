@@ -1,17 +1,31 @@
 import { useState } from 'react'
 
 function Versions(): React.JSX.Element {
-  console.log(window.api.appVersion)
-  const [versions] = useState(window.api.versions)
-  const appVersion = window.api.appVersion
+  const [versions] = useState(window.api?.versions)
 
   return (
-    <ul className="list bg-base-100 rounded-box shadow-md">
-      <li className="list-row electron-version">Electron v{versions.electron}</li>
-      <li className="list-row chrome-version">Chromium v{versions.chrome}</li>
-      <li className="list-row node-version">Node v{versions.node}</li>
-      <li className="list-row app-version">Ryzen Control Center v{appVersion}</li>
-    </ul>
+    <div
+      className="
+      join 
+      bg-base-100 
+      rounded-box 
+      shadow-md 
+      w-full 
+      flex 
+      flex-row 
+      justify-around 
+      [&>div]:mx-2
+      [&>.vertical]:not-last:border-r
+      [&>.vertical]:not-last:border-neutral"
+    >
+      <div className="join-item electron-version">Electron v{versions?.electron}</div>
+      <div className="vertical" />
+      <div className="join-item chrome-version">Chromium v{versions?.chrome}</div>
+      <div className="vertical" />
+      <div className="join-item node-version">Node v{versions?.node}</div>
+      <div className="vertical" />
+      <div className="join-item app-version">Ryzen Control Center v{versions?.rcc}</div>
+    </div>
   )
 }
 

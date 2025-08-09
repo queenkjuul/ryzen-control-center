@@ -1,0 +1,35 @@
+/* LIGHT THEME - DEFAULT */
+@plugin "daisyui/theme" {
+  name: 'amd-light';
+  default: true;
+  prefersdark: false;
+  color-scheme: 'light';
+  --color-base-100: oklch(100% 0 0);
+  --color-base-200: oklch(93% 0 0);
+  --color-base-300: oklch(86% 0 0);
+  --color-base-content: oklch(22.389% 0.031 278.072);
+  --color-primary: #f16623;
+  --color-primary-content: oklch(100% 0 0);
+  --color-secondary: #d1103d;
+  --color-secondary-content: oklch(100% 0 0);
+  --color-accent: #7b1d90;
+  --color-accent-content: oklch(100% 0 0);
+  --color-neutral: #221f21;
+  --color-neutral-content: oklch(100% 0 0);
+  --color-info: oklch(60% 0.126 221.723);
+  --color-info-content: oklch(0% 0 0);
+  --color-success: #99d41e;
+  --color-success-content: oklch(0% 0 0);
+  --color-warning: oklch(90% 0.182 98.111);
+  --color-warning-content: oklch(0% 0 0);
+  --color-error: #ee1b24;
+  --color-error-content: oklch(0% 0 0);
+  --radius-selector: 0rem;
+  --radius-field: 0rem;
+  --radius-box: 0.25rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
+}
