@@ -124,22 +124,22 @@ app.whenReady().then(async () => {
   logger.info('Setting up IPC listeners and handlers')
 
   nativeTheme.addListener('updated', () => {
-    appState.mainWindow.webContents.send('highContrast', nativeTheme.shouldUseHighContrastColors)
-    appState.mainWindow.webContents.send('source', nativeTheme.themeSource)
-    console.log(
-      'updated theme',
-      nativeTheme.shouldUseDarkColors,
-      nativeTheme.shouldUseHighContrastColors
-    )
+    logger.info('Settings changed, informing client')
+    appState.mainWindow.webContents.send('settingsChange', appState.appSettings)
   })
 
   ipcMain.handle(
     'setSetting',
-    <K extends AppSettingsKey>(_event, setting: K, value: AppSettings[K]) => {
+    async <K extends AppSettingsKey>(_event, setting: K, value: AppSettings[K]) => {
       logger.info(`Client requested set ${setting} to ${value}`)
-      return appState.setSetting(setting, value)
+      return new IpcResponse<AppSettings>(appState.setSetting(setting, value))
     }
   )
+
+  ipcMain.handle('getSettings', async (): Promise<IpcResponse<AppSettings>> => {
+    logger.info('Client requested current settings state', appState.appSettings)
+    return new IpcResponse<AppSettings>(appState.appSettings)
+  })
 
   ipcMain.handle('getRyzenInfo', async (): Promise<IpcResponse<RyzenInfo>> => {
     logger.info('Client requested RyzenInfo')

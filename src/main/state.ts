@@ -9,23 +9,7 @@ import {
   type AppSettingsValue,
   type ThemeSource
 } from '/@/types/app-settings'
-import { Themes, type Theme } from '/@/types/themes'
-
-function getDefaultTheme(dark: boolean, highContrast: boolean): Theme {
-  return dark
-    ? highContrast
-      ? Themes['amd-dark-hic']
-      : Themes['amd-dark']
-    : highContrast
-      ? Themes['amd-light-hic']
-      : Themes['amd-light-hic']
-}
-
-const settingsCallbacks: Partial<Record<AppSettingsKey, Function>> = {
-  themeSource: (themeSource: ThemeSource) => {
-    nativeTheme.themeSource = themeSource
-  }
-}
+import { darkThemes, getDefaultTheme } from '/@/types/themes'
 
 export class AppState {
   public forceQuit = false
@@ -36,6 +20,21 @@ export class AppState {
   private _appSettings: AppSettings
   // @ts-ignore gets defined in initialize()
   private _mainWindow: BrowserWindow
+
+  private settingsCallbacks: Partial<Record<AppSettingsKey, Function>> = {
+    themeSource: (themeSource: ThemeSource) => {
+      nativeTheme.themeSource = themeSource
+      this._appSettings.dark = this._appSettings.useCustomTheme
+        ? darkThemes.includes(this.appSettings.theme)
+        : nativeTheme.shouldUseDarkColors
+      this._appSettings.highContrast = nativeTheme.shouldUseHighContrastColors
+    },
+    useCustomTheme: (useCustomTheme: boolean) => {
+      if (useCustomTheme) {
+        this._appSettings.dark = darkThemes.includes(this._appSettings.theme)
+      }
+    }
+  }
 
   public async initialize(): Promise<AppState> {
     logger.info('Loading saved settings')
@@ -58,6 +57,12 @@ export class AppState {
             break
           case 'highContrast':
             value = nativeTheme.shouldUseHighContrastColors
+            break
+          case 'forceHighContrast':
+            value = false
+            break
+          case 'useCustomTheme':
+            value = false
             break
           case 'theme':
             value = getDefaultTheme(
@@ -114,8 +119,8 @@ export class AppState {
   setSetting<K extends keyof AppSettings>(setting: K, value: AppSettings[K]): AppSettings {
     settings.setSync(setting, value)
     this._appSettings[setting] = value
-    if (settingsCallbacks[setting]) {
-      settingsCallbacks[setting](this.appSettings[setting])
+    if (this.settingsCallbacks[setting]) {
+      this.settingsCallbacks[setting](this.appSettings[setting])
     }
     return this._appSettings
   }

@@ -17,11 +17,11 @@ declare global {
       setSetting: <K extends AppSettingsKey>(
         setting: K,
         value: AppSettings[K]
-      ) => IpcResponse<AppSettings>
+      ) => Promise<IpcResponse<AppSettings>>
       versions: NodeJS.ProcessVersions & { rcc: string }
       appVersion: string
       nativeTheme: NativeTheme
-      onHighContrast: (callback: (value: boolean) => void) => void
+      onSettingsChange: (callback: (value: AppSettings) => void) => void
     }
   }
 }

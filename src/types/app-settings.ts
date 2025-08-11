@@ -16,6 +16,7 @@ export class AppSettingsClass {
   themeSource: ThemeSource
   useCustomTheme: boolean
   highContrast: boolean
+  forceHighContrast: boolean
   theme: Theme
   dark: boolean
 

@@ -13,7 +13,14 @@ const api = {
     return ipcRenderer.invoke('setSetting', setting, value)
   },
   versions: { ...process.versions, rcc: version },
-  onHighContrast: (callback) => ipcRenderer.on('highContrast', (_event, value) => callback(value))
+  onSettingsChange: (callback) => {
+    // each re-render will attempt to register a new listener,
+    // so remove the old ones first.
+    // only 1 settings listener allowed:
+    // use React to pass state down
+    ipcRenderer.removeAllListeners('settingsChange')
+    ipcRenderer.on('settingsChange', (_event, value) => callback(value))
+  }
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to
