@@ -60,7 +60,7 @@ export class AppState {
     logger.debug('Checking stored settings values')
     // DEFAULT SETTINGS VALUES
     for (const setting of appSettingsKeys) {
-      if (!storedSettings[setting]) {
+      if (storedSettings[setting] === undefined) {
         let value
         switch (setting) {
           case 'dark':
