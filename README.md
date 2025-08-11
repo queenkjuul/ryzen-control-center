@@ -4,6 +4,8 @@ Quick and dirty wrapper for [RyzenAdj](https://github.com/FlyGoat/RyzenAdj) on L
 
 Maybe someday, less quick and dirty, and instead a D-Bus client for [`ryzend`](https://github.com/queenkjuul/ryzend)
 
+![alt text](image.png)
+
 ## About
 
 Inspired by the now-abandoned [Ryzen Controller](https://gitlab.com/ryzen-controller-team/ryzen-controller), designed for simple tray-focused interaction.
@@ -20,14 +22,14 @@ Development is focused on compatibility with latest Ubuntu, but should be mostly
 - [ ] tray icon for showing current config and setting values
 - [ ] main window for editing current config and setting tray options
 - [x] app runs with only tray icon after main window is closed
-- [ ] settings persistence
+- [x] settings persistence
 - [ ] snap and AppImage packaging
 
 ### Planned
 
 - [ ] Full config presets
 - [ ] In-app documentation for each parameter
-- [ ] Full light and dark mode support
+- [x] Full light and dark mode support
 - [ ] `.deb` / `.rpm` packaging
 
 ### Stretch
