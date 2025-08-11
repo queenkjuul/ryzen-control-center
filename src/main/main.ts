@@ -1,19 +1,11 @@
-import { electronApp, optimizer } from '@electron-toolkit/utils'
-import { app, ipcMain, nativeTheme, Tray } from 'electron'
-import { IpcResponse } from '../types/ipc'
+import { electronApp } from '@electron-toolkit/utils'
+import { app } from 'electron'
 import { APP_NAME } from './config/app-name'
 import { logger } from './config/logger'
-import { getRyzenInfo, setParamAndGetInfo } from './ryzenadj'
 import { appState } from './state'
-import { ubuntuSetup, ubuntuTeardown } from './ubuntu'
+import { ubuntuSetup } from './ubuntu'
 import { sillySaying } from './util/silly'
-import type { AppSettings, AppSettingsKey } from '/@/types/app-settings'
-import type {
-  RyzenInfo,
-  RyzenInfoParams,
-  RyzenInfoValue,
-  RyzenSetResultAndNewInfo
-} from '/@/types/ryzenadj/ryzenadj'
+import { setupIpcServer } from '/@/main/ipc-server'
 import { version } from '/@/version.js'
 
 function silly(): void {
@@ -30,8 +22,6 @@ Distributed under the terms of the GNU GPL v3 License, except where noted
 `)
 
 silly()
-
-let tray: Tray
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -61,85 +51,21 @@ app.whenReady().then(async () => {
     ubuntuSetup()
   }
 
+  // STATE
+  // ==================================
   logger.info('Initializing app state')
   await appState.initialize()
-
-  // APP
-  // =========================================
-  logger.info('Setting up app event listners')
-  // Default open or close DevTools by F12 in development
-  // and ignore CommandOrControl + R in production.
-  // see https://github.com/alex8088/electron-toolkit/tree/master/packages/utils
-  app.on('browser-window-created', (_, window) => {
-    optimizer.watchWindowShortcuts(window)
-  })
-  app.on('will-quit', () => {
-    logger.debug('Preparing to quit')
-    ubuntuTeardown()
-    silly()
-    logger.silly('Done.')
-    logger.silly('Have a nice day!')
-  })
 
   // IPC
   // =================================================
   logger.info('Setting up IPC listeners and handlers')
+  await setupIpcServer()
 
-  nativeTheme.addListener('updated', () => {
-    logger.info('Settings changed, informing client')
-    appState.setSetting('highContrast', nativeTheme.shouldUseHighContrastColors)
-    if (appState.appSettings.themeSource === 'system') {
-      appState.setSetting('dark', nativeTheme.shouldUseDarkColors)
-    }
-    appState.mainWindow.webContents.send('settingsChange', appState.appSettings)
-  })
+  // APP
+  // =========================================
+  logger.info('Setting up app event listners')
+  await import('/@/main/app')
 
-  ipcMain.handle(
-    'setSetting',
-    async <K extends AppSettingsKey>(_event, setting: K, value: AppSettings[K]) => {
-      logger.info(`Client requested set ${setting} to ${value}`)
-      return new IpcResponse<AppSettings>(appState.setSetting(setting, value))
-    }
-  )
-
-  ipcMain.handle('getSettings', async (): Promise<IpcResponse<AppSettings>> => {
-    logger.info('Client requested current settings state', appState.appSettings)
-    return new IpcResponse<AppSettings>(appState.appSettings)
-  })
-
-  ipcMain.handle('getRyzenInfo', async (): Promise<IpcResponse<RyzenInfo>> => {
-    logger.info('Client requested RyzenInfo')
-    try {
-      const data = await getRyzenInfo()
-      logger.debug('ryzenadj -i parsed output \n', data)
-      return { data }
-    } catch (error) {
-      logger.error(error)
-      return { error }
-    }
-  })
-
-  ipcMain.handle(
-    'setRyzenParam',
-    async (
-      event,
-      param: RyzenInfoParams,
-      value: RyzenInfoValue | null
-    ): Promise<IpcResponse<RyzenSetResultAndNewInfo>> => {
-      logger.info(`Client requested set ${param} to ${value}`)
-      logger.debug('setRyzenParam Event: \n', event)
-      try {
-        const data = await setParamAndGetInfo(param, value)
-        return { data }
-      } catch (error) {
-        logger.error(error)
-        return { error }
-      }
-    }
-  )
-
+  // READY
   logger.info('Main process initialized')
 })
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
