@@ -1,6 +1,7 @@
 import { BrowserWindow, nativeTheme } from 'electron'
 import settings from 'electron-settings'
 import { logger } from '/@/main/config/logger'
+import { getIconPath } from '/@/main/util/icon'
 import {
   appSettingsKeys,
   type AppSettings,
@@ -24,15 +25,20 @@ export class AppState {
   private settingsCallbacks: Partial<Record<AppSettingsKey, Function>> = {
     themeSource: (themeSource: ThemeSource) => {
       nativeTheme.themeSource = themeSource
-      this._appSettings.dark = this._appSettings.useCustomTheme
+      this.setSetting('dark', this._appSettings.useCustomTheme)
         ? darkThemes.includes(this.appSettings.theme)
         : nativeTheme.shouldUseDarkColors
-      this._appSettings.highContrast = nativeTheme.shouldUseHighContrastColors
+      this.setSetting('highContrast', nativeTheme.shouldUseHighContrastColors)
     },
     useCustomTheme: (useCustomTheme: boolean) => {
       if (useCustomTheme) {
-        this._appSettings.dark = darkThemes.includes(this._appSettings.theme)
+        this.setSetting('dark', darkThemes.includes(this._appSettings.theme))
       }
+    },
+    dark: (dark: boolean) => {
+      this.mainWindow.setIcon(
+        getIconPath(dark, this.appSettings.highContrast || this.appSettings.forceHighContrast)
+      )
     }
   }
 

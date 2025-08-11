@@ -41,3 +41,43 @@ export enum Themes {
 }
 
 export type Theme = keyof typeof Themes
+
+export const lightThemes: Theme[] = [
+  Themes['amd-light'],
+  Themes['amd-light-hic'],
+  Themes.light,
+  Themes.cupcake,
+  Themes.bumblebee,
+  Themes.emerald,
+  Themes.corporate,
+  Themes.retro,
+  Themes.cyberpunk,
+  Themes.valentine,
+  Themes.garden,
+  Themes.lofi,
+  Themes.pastel,
+  Themes.fantasy,
+  Themes.wireframe,
+  Themes.cmyk,
+  Themes.autumn,
+  Themes.acid,
+  Themes.lemonade,
+  Themes.winter,
+  Themes.nord,
+  Themes.caramellatte,
+  Themes.silk
+]
+
+export const darkThemes = Object.keys(Themes).filter(
+  (theme) => !lightThemes.includes(theme as Theme)
+)
+
+export function getDefaultTheme(dark, highContrast) {
+  return dark
+    ? highContrast
+      ? Themes['amd-dark-hic']
+      : Themes['amd-dark']
+    : highContrast
+      ? Themes['amd-light-hic']
+      : Themes['amd-light']
+}

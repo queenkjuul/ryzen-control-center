@@ -19,7 +19,10 @@ const api = {
     // only 1 settings listener allowed:
     // use React to pass state down
     ipcRenderer.removeAllListeners('settingsChange')
-    ipcRenderer.on('settingsChange', (_event, value) => callback(value))
+    ipcRenderer.on('settingsChange', (_event, value) => {
+      console.log(value)
+      callback(value)
+    })
   }
 }
 

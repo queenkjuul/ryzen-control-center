@@ -7,8 +7,15 @@
 @import './themes/amd-dark-hic.css';
 @import './themes/amd-light-hic.css';
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @font-face {
   font-family: 'Pass A38';
+  src: url('./Pass_A38.woff2');
+}
+
+@font-face {
+  font-family: 'Noto Emoji';
   src: url('./Pass_A38.woff2');
 }
 
@@ -16,5 +23,11 @@
   html {
     font-family: 'Pass A38', system-ui, sans-serif;
     font-size: larger;
+  }
+}
+
+@layer utilities {
+  .emoji {
+    font-family: 'Noto Emoji';
   }
 }

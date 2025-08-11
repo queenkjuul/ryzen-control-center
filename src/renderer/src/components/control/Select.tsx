@@ -2,19 +2,37 @@ import type { ChangeEvent, EventHandler } from 'react'
 import type { SelectOption } from '/@types/ui/select'
 
 type Props = {
+  className?: string
   label: string
   options: SelectOption[]
   disabled?: boolean
+  value?: any
   onChange?: EventHandler<ChangeEvent<HTMLSelectElement>>
 }
-function Select({ label, options, disabled = false, onChange }: Props): React.JSX.Element {
+function Select({
+  className = '',
+  label,
+  options,
+  value,
+  disabled = false,
+  onChange
+}: Props): React.JSX.Element {
   return (
-    <label className="select">
+    <label className={`select ${className}`}>
       <span className="label">{label}</span>
-      <select onChange={onChange} disabled={disabled}>
+      <select
+        className="[&_option:hover]:bg-accent!"
+        onChange={onChange}
+        disabled={disabled}
+        value={value}
+      >
         {...options.map(({ value, label }) => (
           <>
-            <option value={value} key={value}>
+            <option
+              className="hover:bg-emerald-700! focus:bg-emerald-800!"
+              value={value}
+              key={value}
+            >
               {label}
             </option>
           </>

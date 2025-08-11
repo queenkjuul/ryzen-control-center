@@ -125,6 +125,10 @@ app.whenReady().then(async () => {
 
   nativeTheme.addListener('updated', () => {
     logger.info('Settings changed, informing client')
+    appState.setSetting('highContrast', nativeTheme.shouldUseHighContrastColors)
+    if (appState.appSettings.themeSource === 'system') {
+      appState.setSetting('dark', nativeTheme.shouldUseDarkColors)
+    }
     appState.mainWindow.webContents.send('settingsChange', appState.appSettings)
   })
 
