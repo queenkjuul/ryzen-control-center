@@ -1,4 +1,4 @@
-import { BrowserWindow, nativeTheme } from 'electron'
+import { BrowserWindow, nativeTheme, Tray } from 'electron'
 import settings from 'electron-settings'
 import { logger } from '/@/main/config/logger'
 import { getIconPath } from '/@/main/util/icon'
@@ -21,6 +21,8 @@ export class AppState {
   private _appSettings: AppSettings
   // @ts-ignore gets defined in initialize()
   private _mainWindow: BrowserWindow
+  // @ts-ignore gets defined in initialize()
+  private _tray: Tray
 
   private settingsCallbacks: Partial<Record<AppSettingsKey, Function>> = {
     themeSource: (themeSource: ThemeSource) => {
@@ -36,9 +38,12 @@ export class AppState {
       }
     },
     dark: (dark: boolean) => {
-      this.mainWindow.setIcon(
-        getIconPath(dark, this.appSettings.highContrast || this.appSettings.forceHighContrast)
+      const icon = getIconPath(
+        dark,
+        this.appSettings.highContrast || this.appSettings.forceHighContrast
       )
+      this.mainWindow.setIcon(icon)
+      this.tray.setImage(icon)
     }
   }
 
@@ -84,6 +89,10 @@ export class AppState {
     // we should be guaranteed to have a full AppSettings object now
     this._appSettings = storedSettings as AppSettings
 
+    // set up tray icon
+    const { createTray } = await import('/@/main/tray')
+    this._tray = createTray()
+
     // instantiate windows
     const { createMainWindow } = await import('/@/main/window')
     this._mainWindow = await createMainWindow()
@@ -116,6 +125,13 @@ export class AppState {
       throw new Error('Cannot access appSettings before initialization!')
     }
     return this._appSettings as AppSettings
+  }
+
+  get tray(): Tray {
+    if (!this._initialized) {
+      throw new Error('Cannot access appSettings before initialization!')
+    }
+    return this._tray
   }
 
   getSetting(setting: AppSettingsKey): AppSettingsValue {

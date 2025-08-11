@@ -1,12 +1,11 @@
 import { electronApp, optimizer } from '@electron-toolkit/utils'
-import { app, ipcMain, Menu, nativeTheme, Tray } from 'electron'
+import { app, ipcMain, nativeTheme, Tray } from 'electron'
 import { IpcResponse } from '../types/ipc'
 import { APP_NAME } from './config/app-name'
 import { logger } from './config/logger'
-import { getRyzenInfo, setParamAndGetInfo, setRyzenParam } from './ryzenadj'
+import { getRyzenInfo, setParamAndGetInfo } from './ryzenadj'
 import { appState } from './state'
 import { ubuntuSetup, ubuntuTeardown } from './ubuntu'
-import { getIconPath } from './util/icon'
 import { sillySaying } from './util/silly'
 import type { AppSettings, AppSettingsKey } from '/@/types/app-settings'
 import type {
@@ -64,43 +63,6 @@ app.whenReady().then(async () => {
 
   logger.info('Initializing app state')
   await appState.initialize()
-
-  // TRAY
-  // ================================
-  logger.info('Setting up tray icon')
-  tray = new Tray(getIconPath())
-  const trayMenu = Menu.buildFromTemplate([
-    {
-      label: 'Open Ryzen Control Center',
-      type: 'normal',
-      click: () => appState.mainWindow.show()
-    },
-    { type: 'separator' },
-    {
-      label: 'Set High Performance Mode',
-      type: 'normal',
-      click: () => setRyzenParam('max-performance', null)
-    },
-    {
-      label: 'Set Power Saving Mode',
-      type: 'normal',
-      click: () => setRyzenParam('power-saving', null)
-    },
-    { type: 'separator' },
-    {
-      label: 'Exit',
-      type: 'normal',
-      click: () => {
-        logger.debug('Exit tray button clicked')
-        appState.forceQuit = true
-        app.quit()
-      }
-    }
-  ])
-  tray.setContextMenu(trayMenu)
-  tray.setTitle(APP_NAME)
-  tray.setToolTip(APP_NAME)
-  tray.on('click', () => appState.mainWindow.show())
 
   // APP
   // =========================================
