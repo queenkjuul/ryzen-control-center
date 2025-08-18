@@ -21,13 +21,13 @@ function RyzenValues(): React.JSX.Element {
 
   return (
     <div className="grow overflow-auto">
-      <label className={`swap cursor-default w-full ${haveData ? 'swap-active' : ''}`}>
+      <label className={`swap w-full cursor-default ${haveData ? 'swap-active' : ''}`}>
         <div className="swap-off text-center">
           Press "Get System Status" to view current power values <br />
           (Requires admin password)
         </div>
-        <div className="swap-on m-2 rounded border border-neutral">
-          <table className="table table-zebra">
+        <div className="swap-on border-neutral m-2 rounded border">
+          <table className="table-zebra table">
             <thead>
               <tr>
                 <td>Key</td>
@@ -53,7 +53,7 @@ function RyzenValues(): React.JSX.Element {
                     <td className="flex flex-row items-center gap-2">
                       {desc || key}
                       <InfoTooltip
-                        className="h-4 w-4 mb-0.5"
+                        className="mb-0.5 h-4 w-4"
                         tooltip={desc && key}
                         direction="right"
                       />

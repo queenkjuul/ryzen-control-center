@@ -5,23 +5,7 @@ function Versions({ className = '' }): React.JSX.Element {
 
   return (
     <div
-      className={`
-      join 
-      bg-base-100
-      w-full 
-      inline-flex
-      flex-wrap
-      flex-row 
-      justify-around
-      text-base-content
-      text-xs
-      mb-0.5
-      [&>div]:mx-2
-      [&>div]:grow
-      [&>div]:text-center
-      [&>.vertical]:not-last:border-r
-      [&>.vertical]:not-last:border-neutral
-      ${className}`}
+      className={`join bg-base-100 text-base-content [&>.vertical]:not-last:border-neutral mb-0.5 inline-flex w-full flex-row flex-wrap justify-around text-xs [&>.vertical]:not-last:border-r [&>div]:mx-2 [&>div]:grow [&>div]:text-center ${className}`}
     >
       <div className="join-item electron-version">Electron v{versions?.electron}</div>
       {/* <div className="vertical" /> */}

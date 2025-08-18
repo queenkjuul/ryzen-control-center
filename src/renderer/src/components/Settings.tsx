@@ -19,8 +19,8 @@ function Settings(): React.JSX.Element {
   return (
     <>
       <div className="m-2">
-        <h2 className="text-2xl mb-2">Settings</h2>
-        <div className="flex flex-col sm:grid sm:grid-cols-2 gap-2">
+        <h2 className="mb-2 text-2xl">Settings</h2>
+        <div className="flex flex-col gap-2 sm:grid sm:grid-cols-2">
           <Checkbox
             label="Force High Contrast Theme"
             disabled={currentSettings.useCustomTheme}

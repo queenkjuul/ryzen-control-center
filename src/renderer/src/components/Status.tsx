@@ -12,19 +12,7 @@ function Status({ className = '' }): React.JSX.Element {
 
   return (
     <div
-      className={`
-        text-xs 
-        text-base-content
-        border-neutral 
-        border 
-        grid 
-        auto-rows-auto
-        [&>div]:w-full 
-        [&>div]:px-2
-        [&>div]:py-1
-        [&>div]:not-last:border-b 
-        [&>div]:border-neutral
-        ${className}`}
+      className={`text-base-content border-neutral [&>div]:border-neutral grid auto-rows-auto border text-xs [&>div]:w-full [&>div]:px-2 [&>div]:py-1 [&>div]:not-last:border-b ${className}`}
     >
       {/* [x] TODO: Update these to look up powerSave string */}
       <div className="grid grid-cols-2">
@@ -41,7 +29,7 @@ function Status({ className = '' }): React.JSX.Element {
           {`${powerStrings[ryzenInfo.POWER_SAVING?.value ?? ''] ?? '-'}`}{' '}
           <InfoTooltip
             tooltip={RyzenParamsDescriptionMap[ryzenInfo.POWER_SAVING?.value ?? '']}
-            className="h-3 w-3 relative top-[2px]"
+            className="relative top-[2px] h-3 w-3"
             direction="left"
           />
         </div>

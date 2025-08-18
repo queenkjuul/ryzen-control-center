@@ -57,22 +57,22 @@ function App(): React.JSX.Element {
   return (
     <SettingsContext.Provider value={appSettings}>
       <RyzenInfoContext.Provider value={currentRyzenInfo}>
-        <div className="flex flex-col h-full">
-          <div className="flex flex-row gap-2 items-center justify-around bg-base-200">
-            <img alt="logo" className="logo h-24 w-24 hidden dark:block" src={darkLogo} />
+        <div className="flex h-full flex-col">
+          <div className="bg-base-200 flex flex-row items-center justify-around gap-2">
+            <img alt="logo" className="logo hidden h-24 w-24 dark:block" src={darkLogo} />
             <img alt="logo" className="logo h-24 w-24 dark:hidden" src={lightLogo} />
             <h1 className="text-large md:text-3xl">Ryzen Control Center</h1>
             <Status className="ml-4 hidden sm:block" />
             <div className="grow" />
             <div className="flex flex-col">
               <button
-                className="btn w-8 h-8 bg-transparent border-none p-0 m-0 mr-2"
+                className="btn m-0 mr-2 h-8 w-8 border-none bg-transparent p-0"
                 onClick={() => setShowSettings(!showSettings)}
               >
                 {showSettings ? (
-                  <XMarkIcon className="w-8 h-8" />
+                  <XMarkIcon className="h-8 w-8" />
                 ) : (
-                  <Cog6ToothIcon className="w-8 h-8" />
+                  <Cog6ToothIcon className="h-8 w-8" />
                 )}
               </button>
             </div>
@@ -85,10 +85,10 @@ function App(): React.JSX.Element {
             </>
           ) : (
             <>
-              <div className="my-2 flex flex-row flex-wrap w-full gap-2 justify-around">
+              <div className="my-2 flex w-full flex-row flex-wrap justify-around gap-2">
                 <a href="https://github.com/FlyGoat/RyzenAdj/wiki" target="_blank" rel="noreferrer">
                   <button className="btn">
-                    Documentation <ArrowTopRightOnSquareIcon className="w-4 h-4" />
+                    Documentation <ArrowTopRightOnSquareIcon className="h-4 w-4" />
                   </button>
                 </a>
                 <button className="btn btn-accent">
