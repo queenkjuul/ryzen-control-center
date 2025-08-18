@@ -1,26 +1,41 @@
 import type { AppSettings, AppSettingsKey } from '/@types/app-settings'
 import type { IpcResponse } from '/@types/ipc'
-import type { RyzenInfo } from '/@types/ryzenadj/ryzenadj'
+import type {
+  RyzenInfo,
+  RyzenInfoParams,
+  RyzenInfoValue,
+  RyzenSetResultAndNewInfo
+} from '/@types/ryzenadj/ryzenadj'
 
-export const getRyzenInfo = async (): Promise<IpcResponse<RyzenInfo>> => {
-  return window.api.getRyzenInfo()
+const checkForErrors = <T>(response: IpcResponse<T>): T => {
+  if (response.error) {
+    console.error(response.error)
+    throw new Error(response.error)
+  }
+  if (!response.data) {
+    throw new Error('No data returned with response!')
+  }
+  return response.data as T
+}
+
+export const getRyzenInfo = async (): Promise<RyzenInfo> => {
+  return checkForErrors(await window.api.getRyzenInfo())
+}
+
+export const setRyzenParam = async (
+  param: RyzenInfoParams,
+  value: RyzenInfoValue
+): Promise<RyzenSetResultAndNewInfo> => {
+  return checkForErrors(await window.api.setRyzenParam(param, value))
 }
 
 export const getSettings = async (): Promise<AppSettings> => {
-  const { data, error } = await window.api.getSettings()
-  if (error) {
-    console.error(error)
-  }
-  return data as AppSettings
+  return checkForErrors(window.api.getSettings())
 }
 
 export const setSetting = async <K extends AppSettingsKey>(
   setting: K,
   value: AppSettings[K]
 ): Promise<AppSettings> => {
-  const { data, error } = await window.api.setSetting(setting, value)
-  if (error) {
-    console.error(error)
-  }
-  return data as AppSettings
+  return checkForErrors(await window.api.setSetting(setting, value))
 }

@@ -28,13 +28,18 @@ function App(): React.JSX.Element {
   })
 
   const getRyzenInfo = async (): Promise<void> => {
-    const newRyzenInfo = (await ipc.getRyzenInfo()).data ?? {}
+    const newRyzenInfo = await ipc.getRyzenInfo()
     setCurrentRyzenInfo(newRyzenInfo)
     console.log(currentRyzenInfo)
   }
 
   const setRyzenParam = async (param: RyzenInfoParams, value: RyzenInfoValue): Promise<void> => {
-    console.log(await window.api.setRyzenParam(param, value))
+    const data = await ipc.setRyzenParam(param, value)
+    if (!data.setResult) {
+      throw new Error(`Failed to set parameter: ${param} to ${value}`)
+    }
+    setCurrentRyzenInfo(data.newInfo)
+    console.log(data.newInfo)
   }
 
   useEffect(() => {

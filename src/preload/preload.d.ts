@@ -2,7 +2,12 @@ import { ElectronAPI } from '@electron-toolkit/preload'
 import type { NativeTheme } from 'electron'
 import type { AppSettings, AppSettingsKey } from '/@types/app-settings'
 import { IpcResponse } from '/@types/ipc'
-import type { RyzenInfo, RyzenInfoParams, RyzenInfoValue } from '/@types/ryzenadj/ryzenadj'
+import type {
+  RyzenInfo,
+  RyzenInfoParams,
+  RyzenInfoValue,
+  RyzenSetResultAndNewInfo
+} from '/@types/ryzenadj/ryzenadj'
 
 declare global {
   interface Window {
@@ -12,7 +17,7 @@ declare global {
       setRyzenParam: (
         param: RyzenInfoParams,
         value: RyzenInfoValue
-      ) => IpcResponse<{ setResult: string; newInfo: RyzenInfo }>
+      ) => Promise<IpcResponse<RyzenSetResultAndNewInfo>>
       getSettings: () => IpcResponse<AppSettings>
       setSetting: <K extends AppSettingsKey>(
         setting: K,
