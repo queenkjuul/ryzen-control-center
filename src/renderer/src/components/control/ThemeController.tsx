@@ -3,7 +3,7 @@
 // there is no other way to override the default theme
 // The DaisyUI docs' example of a drop-down is not to my liking, so I'm just using a hidden control
 
-function ThemeController() {
+function ThemeController(): React.JSX.Element {
   return (
     <input
       name="theme-dropdown"

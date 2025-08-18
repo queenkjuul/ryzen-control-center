@@ -2,7 +2,7 @@ import { setSetting } from '/@renderer/lib/ipc-client'
 import type { AppSettings } from '/@types/app-settings'
 import { Themes } from '/@types/themes'
 
-export function setTheme(themeController: HTMLInputElement, settings: Partial<AppSettings>) {
+export function setTheme(themeController: HTMLInputElement, settings: Partial<AppSettings>): void {
   themeController.checked = !!(
     settings.useCustomTheme ||
     settings.highContrast ||

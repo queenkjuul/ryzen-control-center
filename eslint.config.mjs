@@ -1,5 +1,6 @@
 import eslintConfigPrettier from '@electron-toolkit/eslint-config-prettier'
 import tseslint from '@electron-toolkit/eslint-config-ts'
+import eslintPluginJsxA11y from 'eslint-plugin-jsx-a11y'
 import eslintPluginReact from 'eslint-plugin-react'
 import eslintPluginReactHooks from 'eslint-plugin-react-hooks'
 import eslintPluginReactRefresh from 'eslint-plugin-react-refresh'
@@ -38,8 +39,12 @@ export default tseslint.config(
             ignoreRestSiblings: true
           }
         ]
+      },
+      ...{
+        '@typescript-eslint/no-explicit-any': ['off']
       }
     }
   },
-  eslintConfigPrettier
+  eslintConfigPrettier,
+  eslintPluginJsxA11y.flatConfigs.recommended
 )

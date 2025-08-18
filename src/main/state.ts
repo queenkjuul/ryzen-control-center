@@ -24,12 +24,15 @@ export class AppState {
   // @ts-ignore gets defined in initialize()
   private _tray: Tray
 
-  private settingsCallbacks: Partial<Record<AppSettingsKey, Function>> = {
+  private settingsCallbacks: Partial<Record<AppSettingsKey, (...args: any) => void>> = {
     themeSource: (themeSource: ThemeSource) => {
       nativeTheme.themeSource = themeSource
-      this.setSetting('dark', this._appSettings.useCustomTheme)
-        ? darkThemes.includes(this.appSettings.theme)
-        : nativeTheme.shouldUseDarkColors
+      this.setSetting(
+        'dark',
+        this._appSettings.useCustomTheme
+          ? darkThemes.includes(this.appSettings.theme)
+          : nativeTheme.shouldUseDarkColors
+      )
       this.setSetting('highContrast', nativeTheme.shouldUseHighContrastColors)
     },
     useCustomTheme: (useCustomTheme: boolean) => {

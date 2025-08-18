@@ -7,7 +7,7 @@ import {
   RyzenParamsUnitsMap
 } from '/@types/ryzenadj/param-maps'
 
-function populated(obj) {
+function populated(obj): boolean {
   return Object.keys(obj).length !== 0
 }
 
@@ -21,13 +21,16 @@ function RyzenValues(): React.JSX.Element {
 
   return (
     <div className="grow overflow-auto">
-      <label className={`swap w-full cursor-default ${haveData ? 'swap-active' : ''}`}>
+      <label
+        htmlFor="ryzenValues"
+        className={`swap w-full cursor-default ${haveData ? 'swap-active' : ''}`}
+      >
         <div className="swap-off text-center">
-          Press "Get System Status" to view current power values <br />
+          Press &quot;Get System Status&quot; to view current power values <br />
           (Requires admin password)
         </div>
         <div className="swap-on border-neutral m-2 rounded border">
-          <table className="table-zebra table">
+          <table id="ryzenValues" className="table-zebra table">
             <thead>
               <tr>
                 <td>Key</td>

@@ -41,6 +41,7 @@ function App(): React.JSX.Element {
     if (themeController) {
       setTheme(themeController, settings)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [settings])
 
   useEffect(() => {
@@ -52,6 +53,7 @@ function App(): React.JSX.Element {
           setTheme(themeController, settings)
         }
       })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -91,28 +93,20 @@ function App(): React.JSX.Element {
                     Documentation <ArrowTopRightOnSquareIcon className="h-4 w-4" />
                   </button>
                 </a>
-                <button className="btn btn-accent">
-                  <a target="_blank" rel="noreferrer" onClick={getRyzenInfo}>
-                    Get System Status
-                  </a>
+                <button className="btn btn-accent" onClick={getRyzenInfo}>
+                  Get System Status
                 </button>
-                <button className="btn btn-secondary">
-                  <a
-                    target="_blank"
-                    rel="noreferrer"
-                    onClick={() => setRyzenParam('power-saving', null)}
-                  >
-                    Set power-saving
-                  </a>
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => setRyzenParam('power-saving', null)}
+                >
+                  Set power-saving
                 </button>
-                <button className="btn btn-primary">
-                  <a
-                    target="_blank"
-                    rel="noreferrer"
-                    onClick={() => setRyzenParam('max-performance', null)}
-                  >
-                    Set max-performance
-                  </a>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => setRyzenParam('max-performance', null)}
+                >
+                  Set max-performance
                 </button>
               </div>
               <RyzenValues />

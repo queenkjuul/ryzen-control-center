@@ -72,7 +72,7 @@ export const darkThemes = Object.keys(Themes).filter(
   (theme) => !lightThemes.includes(theme as Theme)
 )
 
-export function getDefaultTheme(dark, highContrast) {
+export function getDefaultTheme(dark, highContrast): Themes {
   return dark
     ? highContrast
       ? Themes['amd-dark-hic']

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-function Versions({ className = '' }): React.JSX.Element {
+function Versions({ className = '' }: { className?: string }): React.JSX.Element {
   const [versions] = useState(window.api?.versions)
 
   return (

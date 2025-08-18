@@ -11,7 +11,7 @@ import type {
   RyzenSetResultAndNewInfo
 } from '/@/types/ryzenadj/ryzenadj'
 
-export function setupIpcServer() {
+export function setupIpcServer(): Promise<void> {
   return new Promise<void>((res, _rej) => {
     nativeTheme.addListener('updated', () => {
       logger.info('Settings changed, informing client')
