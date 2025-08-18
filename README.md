@@ -4,7 +4,7 @@ Quick and dirty wrapper for [RyzenAdj](https://github.com/FlyGoat/RyzenAdj) on L
 
 Maybe someday, less quick and dirty, and instead a D-Bus client for [`ryzend`](https://github.com/queenkjuul/ryzend)
 
-![alt text](image.png)
+![Screenshot of Ryzen Control Center](image.png)
 
 ## About
 
