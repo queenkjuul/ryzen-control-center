@@ -18,7 +18,7 @@ declare global {
         param: RyzenInfoParams,
         value: RyzenInfoValue
       ) => Promise<IpcResponse<RyzenSetResultAndNewInfo>>
-      getSettings: () => IpcResponse<AppSettings>
+      getSettings: () => Promise<IpcResponse<AppSettings>>
       setSetting: <K extends AppSettingsKey>(
         setting: K,
         value: AppSettings[K]
@@ -27,6 +27,11 @@ declare global {
       appVersion: string
       nativeTheme: NativeTheme
       onSettingsChange: (callback: (value: AppSettings) => void) => void
+    }
+    logger: {
+      log: (any) => void
+      warn: (any) => void
+      error: (any) => void
     }
   }
 }

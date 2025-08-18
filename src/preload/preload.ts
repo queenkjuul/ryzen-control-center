@@ -26,12 +26,28 @@ const api = {
   }
 }
 
+const logger = {
+  log: (arg: any) => {
+    console.log(arg)
+    ipcRenderer.postMessage('log', arg)
+  },
+  warn: (arg: any) => {
+    console.warn(arg)
+    ipcRenderer.postMessage('warn', arg)
+  },
+  error: (arg: any) => {
+    console.error(arg)
+    ipcRenderer.postMessage('error', arg)
+  }
+}
+
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise
 // just add to the DOM global.
 if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld('api', api)
+    contextBridge.exposeInMainWorld('logger', logger)
   } catch (error) {
     console.error(error)
   }

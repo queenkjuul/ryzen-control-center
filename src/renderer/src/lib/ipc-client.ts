@@ -9,11 +9,13 @@ import type {
 
 const checkForErrors = <T>(response: IpcResponse<T>): T => {
   if (response.error) {
-    console.error(response.error)
+    window.logger.error(response.error)
     throw new Error(response.error)
   }
   if (!response.data) {
-    throw new Error('No data returned with response!')
+    const error = new Error('No data returned with response!')
+    window.logger.error(error)
+    throw error
   }
   return response.data as T
 }
@@ -30,7 +32,7 @@ export const setRyzenParam = async (
 }
 
 export const getSettings = async (): Promise<AppSettings> => {
-  return checkForErrors(window.api.getSettings())
+  return checkForErrors(await window.api.getSettings())
 }
 
 export const setSetting = async <K extends AppSettingsKey>(
