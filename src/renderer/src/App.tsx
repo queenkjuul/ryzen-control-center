@@ -2,21 +2,24 @@ import { ArrowTopRightOnSquareIcon, Cog6ToothIcon, XMarkIcon } from '@heroicons/
 import { useState } from 'react'
 import darkLogo from './assets/ryzen-logo-dark.png'
 import lightLogo from './assets/ryzen-logo-light.png'
-import Versions from './components/Versions'
-import * as ipc from './lib/ipc-client'
+import Versions from '/@components/Versions'
+import * as ipc from '/@lib/ipc-client'
 
-import RyzenValues from './components/RyzenValues'
-import { setTheme } from './lib/theme/theme'
-import ThemeController from '/@renderer/components/control/ThemeController'
-import Settings from '/@renderer/components/Settings'
-import Status from '/@renderer/components/Status'
-import { RyzenInfoContext, SettingsContext } from '/@renderer/lib/context'
+import ThemeController from '/@components/control/ThemeController'
+import Dock from '/@components/Dock'
+import RyzenValues from '/@components/RyzenValues'
+import Settings from '/@components/Settings'
+import Status from '/@components/Status'
+import { RyzenInfoContext, SettingsContext } from '/@lib/context'
+import { setTheme } from '/@lib/theme/theme'
 import type { AppSettings } from '/@types/app-settings'
 import type { RyzenInfo, RyzenInfoParams, RyzenInfoValue } from '/@types/ryzenadj/ryzenadj'
+import { AppPage } from '/@types/ui/page'
 
 function App(): React.JSX.Element {
   const themeController = document.querySelector('.theme-controller') as HTMLInputElement
 
+  const [page, setPage] = useState<AppPage>(AppPage.VIEW)
   const [currentRyzenInfo, setCurrentRyzenInfo] = useState<RyzenInfo>({})
   const [showSettings, setShowSettings] = useState<boolean>(false)
   const [settings, setSettings] = useState<Partial<AppSettings>>({})
@@ -95,7 +98,14 @@ function App(): React.JSX.Element {
                   Set max-performance
                 </button>
               </div>
-              <RyzenValues />
+              {page === AppPage.VIEW ? (
+                <RyzenValues />
+              ) : page === AppPage.ADJUST ? (
+                <div className="grow">Adjust View</div>
+              ) : (
+                <div className="grow">PresetsView</div>
+              )}
+              <Dock page={page} setPage={setPage} />
             </>
           )}
           <ThemeController />
