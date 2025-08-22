@@ -8,8 +8,11 @@
     "src/types/**/*",
     "src/version.js"
   ],
+  "exclude": ["out/**/*"],
   "compilerOptions": {
+    "outDir": "out/renderer",
     "composite": true,
+    "checkJs": true,
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
