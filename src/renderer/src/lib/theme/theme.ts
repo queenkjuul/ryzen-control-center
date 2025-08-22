@@ -1,4 +1,5 @@
 import { setSetting } from '/@renderer/lib/ipc-client'
+import { convertThemeToStyleString, parseThemeCSS } from '/@renderer/lib/theme/theme-parsing'
 import type { AppSettings } from '/@types/app-settings'
 import { Themes } from '/@types/themes'
 
@@ -8,6 +9,18 @@ export function setTheme(themeController: HTMLInputElement, settings: Partial<Ap
     settings.highContrast ||
     settings.forceHighContrast
   )
+
+  try {
+    const rootElem = document.querySelector('html')!
+    if (settings.useCustomCss) {
+      rootElem.style = convertThemeToStyleString(parseThemeCSS(settings.customCss))
+      return
+    } else {
+      rootElem.style = ''
+    }
+  } catch (error) {
+    // swallow error, fall back to other settings
+  }
   const systemDark = matchMedia('(prefers-color-scheme: dark)').matches
   if (!settings.useCustomTheme) {
     console.log('updating dark', systemDark)
