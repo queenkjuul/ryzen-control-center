@@ -1,16 +1,16 @@
 import { ArrowTopRightOnSquareIcon, Cog6ToothIcon, XMarkIcon } from '@heroicons/react/16/solid'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import darkLogo from './assets/ryzen-logo-dark.png'
 import lightLogo from './assets/ryzen-logo-light.png'
 import Versions from './components/Versions'
 import * as ipc from './lib/ipc-client'
 
 import RyzenValues from './components/RyzenValues'
+import { setTheme } from './lib/theme/theme'
 import ThemeController from '/@renderer/components/control/ThemeController'
 import Settings from '/@renderer/components/Settings'
 import Status from '/@renderer/components/Status'
 import { RyzenInfoContext, SettingsContext } from '/@renderer/lib/context'
-import { setTheme } from '/@renderer/lib/theme'
 import type { AppSettings } from '/@types/app-settings'
 import type { RyzenInfo, RyzenInfoParams, RyzenInfoValue } from '/@types/ryzenadj/ryzenadj'
 
@@ -41,25 +41,6 @@ function App(): React.JSX.Element {
     setCurrentRyzenInfo(data.newInfo)
     console.log(data.newInfo)
   }
-
-  useEffect(() => {
-    if (themeController) {
-      setTheme(themeController, settings)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [settings])
-
-  useEffect(() => {
-    ipc
-      .getSettings()
-      .then(setSettings)
-      .then(() => {
-        if (themeController) {
-          setTheme(themeController, settings)
-        }
-      })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   return (
     <SettingsContext.Provider value={appSettings}>
