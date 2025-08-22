@@ -19,6 +19,8 @@ export class AppSettingsClass {
   forceHighContrast: boolean
   theme: Theme
   dark: boolean
+  useCustomCss: boolean
+  customCss: string
 
   constructor() {
     if (!safe) {

@@ -1,9 +1,11 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import * as ipc from '../lib/ipc-client'
+import { validateThemeStructure } from '../lib/theme/theme-validation.js'
 import Checkbox from '/@renderer/components/control/Checkbox'
 import Select from '/@renderer/components/control/Select'
 import ThemePreview from '/@renderer/components/ThemePreview'
 import { SettingsContext, type AppSettingsContext } from '/@renderer/lib/context'
+import { parseThemeCSS } from '/@renderer/lib/theme/theme-parsing'
 import type { ThemeSource } from '/@types/app-settings'
 import { darkThemes, lightThemes } from '/@types/themes'
 
@@ -15,6 +17,7 @@ const themeSourceLabels = {
 function Settings(): React.JSX.Element {
   const { settings: currentSettings, setSettings: setCurrentSettings } =
     useContext<AppSettingsContext>(SettingsContext)
+  const [validationError, setValidationError] = useState<string>('')
 
   return (
     <>
@@ -52,7 +55,7 @@ function Settings(): React.JSX.Element {
           />
           <Select
             label="Custom Theme"
-            disabled={!currentSettings.useCustomTheme}
+            disabled={!currentSettings.useCustomTheme || currentSettings.useCustomCss}
             options={[
               ...darkThemes.map((theme) => ({
                 value: theme,
@@ -71,7 +74,55 @@ function Settings(): React.JSX.Element {
               setCurrentSettings(await ipc.setSetting('theme', theme))
             }}
           />
-          <div />
+          <div className="flex flex-col gap-4">
+            <Checkbox
+              label="Use custom CSS"
+              disabled={!currentSettings.useCustomTheme}
+              defaultChecked={currentSettings.useCustomCss}
+              onChange={async (e) => {
+                setCurrentSettings(await ipc.setSetting('useCustomCss', e.target.checked))
+              }}
+            />
+            {currentSettings.useCustomCss ? (
+              <>
+                <div role="alert" className="alert alert-info">
+                  <span>
+                    You can use any valid DaisyUI theme.{' '}
+                    <a className="link" href="https://daisyui.com/theme-generator" target="_blank">
+                      The DaisyUI Theme Generator
+                    </a>{' '}
+                    can generate CSS for you to paste below.
+                  </span>
+                </div>
+                <textarea
+                  className="textarea textarea-primary h-full w-full grow font-mono"
+                  disabled={!currentSettings.useCustomCss}
+                  defaultValue={currentSettings.customCss}
+                  onChange={async (event) => {
+                    const rawCss = event.target.value
+                    try {
+                      const themeObject = parseThemeCSS(rawCss)
+                      validateThemeStructure(themeObject)
+                      setValidationError('')
+                      setCurrentSettings(await ipc.setSetting('customCss', rawCss))
+                    } catch (error) {
+                      // @ts-ignore
+                      setValidationError(error.message)
+                    }
+                  }}
+                ></textarea>
+                {validationError !== '' ? (
+                  <div role="alert" className="alert alert-error">
+                    Error! Not a valid theme: {validationError}
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </>
+            ) : (
+              <></>
+            )}
+          </div>
           <ThemePreview />
         </div>
       </div>
