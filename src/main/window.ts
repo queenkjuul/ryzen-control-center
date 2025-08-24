@@ -40,7 +40,7 @@ export function createMainWindow(): Promise<BrowserWindow> {
       mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
     } else {
       mainWindow.removeMenu()
-      mainWindow.loadFile('/@/renderer/index.html')
+      mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
     }
 
     mainWindow.on('ready-to-show', () => {

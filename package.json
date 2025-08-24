@@ -7,6 +7,7 @@
   "homepage": "https://github.com/queenkjuul/ryzen-control-center",
   "scripts": {
     "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "lint": "eslint --cache .",
     "genversion": "genversion --esm src/version.js",
     "typecheck:node": "tsc --noEmit -p tsconfig.node.json --composite false",
@@ -19,7 +20,8 @@
     "build:unpack": "npm run build && electron-builder --dir",
     "build:win": "npm run build && electron-builder --win",
     "build:linux": "npm run genversion && electron-vite build && electron-builder --linux",
-    "test": "vitest src/test"
+    "test": "vitest src/test",
+    "test:run": "vitest --run src/test"
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.2",

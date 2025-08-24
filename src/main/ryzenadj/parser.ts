@@ -1,15 +1,6 @@
-import sudo from 'sudo-prompt'
-import { APP_NAME as name } from './config/app-name'
-import { logger } from './config/logger'
+import { logger } from '/@/main/config/logger'
 import { RyzenInputKeyNameMap, RyzenNameUnitMap } from '/@/types/ryzenadj/params'
-import type {
-  RyzenInfo,
-  RyzenInfoParams,
-  RyzenInfoValue,
-  RyzenSetResultAndNewInfo
-} from '/@/types/ryzenadj/ryzenadj'
-
-const SUCCESS_STRING = 'Sucessfully' // upstream typo in RyzenAdj
+import type { RyzenInfo } from '/@/types/ryzenadj/ryzenadj'
 
 function getValue(line: string): { value: string } {
   return { value: line?.split(':')[1]?.trim() ?? '' }
@@ -77,48 +68,4 @@ export function parseRyzenAdjInfo(output: string): RyzenInfo {
   }
 
   return result
-}
-
-function buildRyzenCommand(...args: string[]): string {
-  return `ryzenadj ${args}`
-}
-
-function runRyzenadjCommand(command: string): Promise<string> {
-  logger.info('Running ', command)
-  return new Promise((res, rej) => {
-    sudo.exec(command, { name }, (error, stdout, stderr) => {
-      if (stderr) logger.debug(`${command} stderr: \n`, stderr)
-      if (error) rej(error)
-      if (stdout) res(typeof stdout === 'string' ? stdout : stdout.toString())
-    })
-  })
-}
-
-export async function getRyzenInfo(): Promise<RyzenInfo> {
-  const command = buildRyzenCommand('-i')
-  return runRyzenadjCommand(command).then(parseRyzenAdjInfo)
-}
-
-export async function setRyzenParam(
-  param: RyzenInfoParams,
-  value: RyzenInfoValue
-): Promise<string> {
-  const command = buildRyzenCommand(`--${param}${value ? `=${value}` : ''}`)
-  return runRyzenadjCommand(command)
-}
-
-// this isn't super elegant...
-// problem is each sudo call triggers another prompt,
-// so we have to combine commands and parse outputs together
-// [ ] TODO: helper function to run arbitrary sequential commands
-export async function setParamAndGetInfo(
-  param: RyzenInfoParams,
-  value: RyzenInfoValue
-): Promise<RyzenSetResultAndNewInfo> {
-  const output = await runRyzenadjCommand(
-    `bash -c 'ryzenadj --${param}${value ? `=${value}` : ''}; ryzenadj -i'`
-  )
-  const setResult = !!output.split('\n').find((line) => line.includes(SUCCESS_STRING))
-  const newInfo = parseRyzenAdjInfo(output)
-  return { setResult, newInfo }
 }

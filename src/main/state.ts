@@ -92,10 +92,6 @@ export class AppState {
     // we should be guaranteed to have a full AppSettings object now
     this._appSettings = storedSettings as AppSettings
 
-    // set up tray icon
-    const { createTray } = await import('/@/main/tray')
-    this._tray = createTray()
-
     // instantiate windows
     const { createMainWindow } = await import('/@/main/window')
     this._mainWindow = await createMainWindow()
@@ -106,6 +102,10 @@ export class AppState {
         this._mainWindow.hide()
       }
     })
+
+    // set up tray icon
+    const { createTray } = await import('/@/main/tray')
+    this._tray = createTray()
 
     this._initialized = true
     logger.debug('App state initialized: ', this)
