@@ -12,4 +12,14 @@ export const SettingsContext = createContext<AppSettingsContext>({
   setSettings: () => {}
 })
 
-export const RyzenInfoContext = createContext<RyzenInfo>({})
+export type RyzenInfoContext = {
+  ryzenInfo: RyzenInfo
+  setRyzenInfo: Dispatch<SetStateAction<RyzenInfo>>
+  getRyzenInfo: () => Promise<void>
+}
+
+export const RyzenInfoContext = createContext<RyzenInfoContext>({
+  ryzenInfo: {},
+  setRyzenInfo: () => {},
+  getRyzenInfo: () => new Promise((res) => res())
+})

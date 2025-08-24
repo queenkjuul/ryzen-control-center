@@ -4,7 +4,7 @@ import { RyzenInfoContext } from '/@renderer/lib/context'
 import { RyzenParamsNameDescriptionMap } from '/@types/ryzenadj/params'
 
 function Status({ className = '' }: { className?: string }): React.JSX.Element {
-  const ryzenInfo = useContext(RyzenInfoContext)
+  const { ryzenInfo } = useContext(RyzenInfoContext)
   const powerStrings = {
     'power-saving': 'Power Saving',
     'max-performance': 'Max Performance'

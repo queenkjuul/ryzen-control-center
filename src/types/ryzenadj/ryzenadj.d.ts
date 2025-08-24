@@ -13,3 +13,5 @@ export type RyzenInfo = Partial<
 export type RyzenSetResultAndNewInfo = { setResult: boolean; newInfo: RyzenInfo }
 
 export type RyzenInfoNames = (typeof RyzenInfoNamesList)[number]
+
+export type RyzenSetParamsObject = Partial<Record<RyzenInfoNames, RyzenInfoValue>>

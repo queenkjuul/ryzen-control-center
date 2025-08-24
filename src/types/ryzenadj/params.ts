@@ -1,3 +1,4 @@
+// cSpell:disable
 import { RyzenInfoKeys, RyzenInfoNames } from './ryzenadj'
 
 // [ ] TODO: These consts and their usages have gotten somewhat messy.

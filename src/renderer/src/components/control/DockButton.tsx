@@ -1,6 +1,12 @@
-function DockButton({ page, setPage, value, label, children }) {
+function DockButton({ page, setPage, setShowSettings, value, label, children }) {
   return (
-    <button className={page === value ? 'dock-active' : ''} onClick={() => setPage(value)}>
+    <button
+      className={page === value ? 'dock-active' : ''}
+      onClick={() => {
+        setShowSettings(false)
+        setPage(value)
+      }}
+    >
       {children}
       <span className="dock-label">{label}</span>
     </button>
