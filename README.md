@@ -1,5 +1,9 @@
 # ryzen-control-center
 
+![build](https://github.com/queenkjuul/ryzen-control-center/actions/workflows/build.yaml/badge.svg)
+![check](https://github.com/queenkjuul/ryzen-control-center/actions/workflows/check.yaml/badge.svg)
+![test](https://github.com/queenkjuul/ryzen-control-center/actions/workflows/test.yaml/badge.svg)
+
 Quick and dirty wrapper for [RyzenAdj](https://github.com/FlyGoat/RyzenAdj) on Linux (and maybe Windows)
 
 Maybe someday, less quick and dirty, and instead a D-Bus client for [`ryzend`](https://github.com/queenkjuul/ryzend)
@@ -23,14 +27,14 @@ Development is focused on compatibility with latest Ubuntu, but the code is most
 - [ ] main window for editing current config and setting tray options
 - [x] app runs with only tray icon after main window is closed
 - [x] settings persistence
-- [ ] snap and AppImage packaging
+- [x] snap and AppImage packaging
 
 ### Planned
 
 - [ ] Full config presets
 - [ ] In-app documentation for each parameter
 - [x] Full light and dark mode support
-- [ ] `.deb` / `.rpm` packaging
+- [x] `.deb` packaging
 
 ### Stretch
 
@@ -39,6 +43,7 @@ Development is focused on compatibility with latest Ubuntu, but the code is most
 - [ ] Integration with other power monitoring (e.g. show current battery draw, `powertop` interaction)
 - [ ] `asusctl`/ROG Control Center integration
 - [ ] Ubuntu PPA packaging
+- [ ] `.rpm` packaging
 
 ## Usage
 
