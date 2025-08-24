@@ -1,0 +1,66 @@
+name: 'Build'
+on:
+  push:
+    branches: ['main']
+  pull_request:
+
+jobs:
+  linux:
+    name: Linux
+    runs-on: ubuntu-latest
+    container: electronuserland/builder:wine
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: irby/setup-node-nvm@v1.0.0
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Linux Build
+        run: npm run build:linux
+
+      - name: Upload deb
+        uses: actions/upload-artifact@v4
+        with:
+          name: ryzen-control-center.${{ github.sha }}.linux.deb
+          path: dist/*.deb
+
+      - name: Upload snap
+        uses: actions/upload-artifact@v4
+        with:
+          name: ryzen-control-center.${{ github.sha }}.linux.snap
+          path: dist/*.snap
+
+      - name: Upload AppImage
+        uses: actions/upload-artifact@v4
+        with:
+          name: ryzen-control-center.${{ github.sha }}.linux.AppImage
+          path: dist/*.AppImage
+
+  windows:
+    name: Windows
+    runs-on: ubuntu-latest
+    container: electronuserland/builder:wine
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: irby/setup-node-nvm@v1.0.0
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Windows Build
+        run: WINEPREFIX=/root/wineprefix bash -c 'npm run build:win'
+
+      - name: Upload EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: ryzen-control-center.${{ github.sha }}.win32
+          path: dist/*.exe
