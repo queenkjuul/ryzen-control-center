@@ -88,7 +88,12 @@ function Settings(): React.JSX.Element {
                 <div role="alert" className="alert alert-info">
                   <span>
                     You can use any valid DaisyUI theme.{' '}
-                    <a className="link" href="https://daisyui.com/theme-generator" target="_blank">
+                    <a
+                      className="link"
+                      href="https://daisyui.com/theme-generator"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
                       The DaisyUI Theme Generator
                     </a>{' '}
                     can generate CSS for you to paste below.
@@ -106,7 +111,7 @@ function Settings(): React.JSX.Element {
                       setValidationError('')
                       setCurrentSettings(await ipc.setSetting('customCss', rawCss))
                     } catch (error) {
-                      // @ts-ignore
+                      // @ts-ignore untyped library will pass us a { message: string }
                       setValidationError(error.message)
                     }
                   }}
