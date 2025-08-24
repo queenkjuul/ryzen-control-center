@@ -8,11 +8,11 @@ Maybe someday, less quick and dirty, and instead a D-Bus client for [`ryzend`](h
 
 ## About
 
-Inspired by the now-abandoned [Ryzen Controller](https://gitlab.com/ryzen-controller-team/ryzen-controller), designed for simple tray-focused interaction.
+Inspired by the now-deprecated [Ryzen Controller](https://gitlab.com/ryzen-controller-team/ryzen-controller), whose successor "Universal x86 Tuning Utility" is so universal that it does not run on Linux, and whose website commits the mortal sin of autoplaying a video with sound below the fold, and thus will not be mentioned again.
 
 Built with Electron, Vite, React, Tailwind, and DaisyUI.
 
-Development is focused on compatibility with latest Ubuntu, but should be mostly platform-independent.
+Development is focused on compatibility with latest Ubuntu, but the code is mostly platform-independent so a Windows version would be very little work.
 
 ## Roadmap
 
