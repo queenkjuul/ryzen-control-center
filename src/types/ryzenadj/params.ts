@@ -1,6 +1,90 @@
-import { RyzenInfoFields, RyzenInputParams } from './ryzenadj'
+import { RyzenInfoKeys, RyzenInfoNames } from './ryzenadj'
 
-export const RyzenInfoParamsMap: Partial<Record<RyzenInfoFields, RyzenInputParams>> = {
+// [ ] TODO: These consts and their usages have gotten somewhat messy.
+// just see things like swapKeysAndValues, getKeyFromValue... not great
+// need to figure out a proper data structure for these.
+// Probably a `RyzenInfoField` class which has a readKey, writeKey, name, desc, unit...
+export const RyzenInfoKeysList = [
+  'CPU_FAMILY',
+  'SMU_BIOS',
+  'RYZENADJ_VERSION',
+  'PM_TABLE_VERSION',
+  'STAPM_LIMIT',
+  'STAPM_VALUE',
+  'PPT_LIMIT_FAST',
+  'PPT_VALUE_FAST',
+  'PPT_LIMIT_SLOW',
+  'PPT_VALUE_SLOW',
+  'StapmTimeConst',
+  'SlowPPTTimeConst',
+  'PPT_LIMIT_APU',
+  'PPT_VALUE_APU',
+  'TDC_LIMIT_VDD',
+  'TDC_VALUE_VDD',
+  'TDC_LIMIT_SOC',
+  'TDC_VALUE_SOC',
+  'EDC_LIMIT_VDD',
+  'EDC_VALUE_VDD',
+  'EDC_LIMIT_SOC',
+  'EDC_VALUE_SOC',
+  'THM_LIMIT_CORE',
+  'THM_VALUE_CORE',
+  'STT_LIMIT_APU',
+  'STT_VALUE_APU',
+  'STT_LIMIT_dGPU',
+  'STT_VALUE_dGPU',
+  'CCLK_Boost_SETPOINT',
+  'CCLK_BUSY_VALUE',
+  'POWER_SAVING',
+  'MAX_PERFORMANCE'
+] as const
+
+export const RyzenInfoNamesList = [
+  'stapm-limit',
+  'fast-limit',
+  'slow-limit',
+  'slow-time',
+  'stapm-time',
+  'tctl-temp',
+  'vrm-current',
+  'vrmsoc-current',
+  'vrmgfx-current',
+  'vrmcvip-current',
+  'vrmmax-current',
+  'vrmsocmax-current',
+  'vrmgfxmax_current',
+  'psi0-current',
+  'psi3cpu_current',
+  'psi0soc-current',
+  'psi3gfx_current',
+  'max-socclk-frequency',
+  'min-socclk-frequency',
+  'max-fclk-frequency',
+  'min-fclk-frequency',
+  'max-vcn',
+  'min-vcn',
+  'max-lclk',
+  'min-lclk',
+  'max-gfxclk',
+  'min-gfxclk',
+  'prochot-deassertion-ramp',
+  'apu-skin-temp',
+  'dgpu-skin-temp',
+  'apu-slow-limit',
+  'skin-temp-limit',
+  'gfx-clk',
+  'oc-clk',
+  'oc-volt',
+  'enable-oc',
+  'disable-oc',
+  'set-coall',
+  'set-coper',
+  'set-cogfx',
+  'power-saving',
+  'max-performance'
+] as const
+
+export const RyzenInputKeyNameMap: Partial<Record<RyzenInfoKeys, RyzenInfoNames>> = {
   STAPM_LIMIT: 'stapm-limit',
   PPT_LIMIT_FAST: 'fast-limit',
   PPT_LIMIT_SLOW: 'slow-limit',
@@ -18,25 +102,7 @@ export const RyzenInfoParamsMap: Partial<Record<RyzenInfoFields, RyzenInputParam
   MAX_PERFORMANCE: 'max-performance'
 } as const
 
-export const RyzenInfoFieldsMap: Partial<Record<RyzenInfoFields, RyzenInputParams>> = {
-  STAPM_VALUE: 'stapm-limit',
-  PPT_VALUE_FAST: 'fast-limit',
-  PPT_VALUE_SLOW: 'slow-limit',
-  StapmTimeConst: 'stapm-time',
-  SlowPPTTimeConst: 'slow-time',
-  PPT_VALUE_APU: 'apu-slow-limit',
-  TDC_VALUE_VDD: 'vrm-current',
-  TDC_VALUE_SOC: 'vrmsoc-current',
-  EDC_VALUE_VDD: 'vrmmax-current',
-  EDC_VALUE_SOC: 'vrmsocmax-current',
-  THM_VALUE_CORE: 'tctl-temp',
-  STT_VALUE_APU: 'apu-skin-temp',
-  STT_VALUE_dGPU: 'dgpu-skin-temp',
-  POWER_SAVING: 'power-saving',
-  MAX_PERFORMANCE: 'max-performance'
-} as const
-
-export const RyzenParamsDescriptionMap: Record<RyzenInputParams, string> = {
+export const RyzenParamsNameDescriptionMap: Record<RyzenInfoNames, string> = {
   'stapm-limit': 'Sustained Power Limit (mW)',
   'fast-limit': 'Actual Power Limit (mW)',
   'slow-limit': 'Average Power Limit (mW)',
@@ -81,7 +147,7 @@ export const RyzenParamsDescriptionMap: Record<RyzenInputParams, string> = {
   'max-performance': 'Hidden options to improve max performance'
 }
 
-export const RyzenParamsUnitsMap: Partial<Record<RyzenInputParams, string>> = {
+export const RyzenNameUnitMap: Partial<Record<RyzenInfoNames, string>> = {
   'stapm-limit': 'mW',
   'fast-limit': 'mW',
   'slow-limit': 'mW',

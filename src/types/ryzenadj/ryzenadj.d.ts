@@ -1,89 +1,15 @@
-import { RyzenInfoParamsMap } from './param-maps'
+import { RyzenInputKeyNameMap, type RyzenInfoKeysList, type RyzenInfoNamesList } from './params'
 
-export type RyzenInfoFields =
-  | 'CPU_FAMILY'
-  | 'SMU_BIOS'
-  | 'RYZENADJ_VERSION'
-  | 'PM_TABLE_VERSION'
-  | 'STAPM_LIMIT'
-  | 'STAPM_VALUE'
-  | 'PPT_LIMIT_FAST'
-  | 'PPT_VALUE_FAST'
-  | 'PPT_LIMIT_SLOW'
-  | 'PPT_VALUE_SLOW'
-  | 'StapmTimeConst'
-  | 'SlowPPTTimeConst'
-  | 'PPT_LIMIT_APU'
-  | 'PPT_VALUE_APU'
-  | 'TDC_LIMIT_VDD'
-  | 'TDC_VALUE_VDD'
-  | 'TDC_LIMIT_SOC'
-  | 'TDC_VALUE_SOC'
-  | 'EDC_LIMIT_VDD'
-  | 'EDC_VALUE_VDD'
-  | 'EDC_LIMIT_SOC'
-  | 'EDC_VALUE_SOC'
-  | 'THM_LIMIT_CORE'
-  | 'THM_VALUE_CORE'
-  | 'STT_LIMIT_APU'
-  | 'STT_VALUE_APU'
-  | 'STT_LIMIT_dGPU'
-  | 'STT_VALUE_dGPU'
-  | 'CCLK_Boost_SETPOINT'
-  | 'CCLK_BUSY_VALUE'
-  | 'POWER_SAVING'
-  | 'MAX_PERFORMANCE'
+export type RyzenInfoKeys = (typeof RyzenInfoKeysList)[number]
 
-export type RyzenInfoKeys = keyof typeof RyzenInfoParamsMap
-export type RyzenInfoParams = (typeof RyzenInfoParamsMap)[RyzenInfoKeys]
+export type RyzenInfoNameMappedKey = keyof typeof RyzenInputKeyNameMap
+export type RyzenInfoParams = (typeof RyzenInputKeyNameMap)[RyzenInfoKeys]
 export type RyzenInfoValue = number | string | null
 
 export type RyzenInfo = Partial<
-  Record<RyzenInfoFields, { value: RyzenInfoValue; parameter?: RyzenInfoParams }>
+  Record<RyzenInfoKeys, { value: RyzenInfoValue; name?: RyzenInfoParams }>
 >
 
 export type RyzenSetResultAndNewInfo = { setResult: boolean; newInfo: RyzenInfo }
 
-export type RyzenInputParams =
-  | 'stapm-limit'
-  | 'fast-limit'
-  | 'slow-limit'
-  | 'slow-time'
-  | 'stapm-time'
-  | 'tctl-temp'
-  | 'vrm-current'
-  | 'vrmsoc-current'
-  | 'vrmgfx-current'
-  | 'vrmcvip-current'
-  | 'vrmmax-current'
-  | 'vrmsocmax-current'
-  | 'vrmgfxmax_current'
-  | 'psi0-current'
-  | 'psi3cpu_current'
-  | 'psi0soc-current'
-  | 'psi3gfx_current'
-  | 'max-socclk-frequency'
-  | 'min-socclk-frequency'
-  | 'max-fclk-frequency'
-  | 'min-fclk-frequency'
-  | 'max-vcn'
-  | 'min-vcn'
-  | 'max-lclk'
-  | 'min-lclk'
-  | 'max-gfxclk'
-  | 'min-gfxclk'
-  | 'prochot-deassertion-ramp'
-  | 'apu-skin-temp'
-  | 'dgpu-skin-temp'
-  | 'apu-slow-limit'
-  | 'skin-temp-limit'
-  | 'gfx-clk'
-  | 'oc-clk'
-  | 'oc-volt'
-  | 'enable-oc'
-  | 'disable-oc'
-  | 'set-coall'
-  | 'set-coper'
-  | 'set-cogfx'
-  | 'power-saving'
-  | 'max-performance'
+export type RyzenInfoNames = (typeof RyzenInfoNamesList)[number]

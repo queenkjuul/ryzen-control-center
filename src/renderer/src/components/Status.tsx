@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import InfoTooltip from '/@renderer/components/control/InfoTooltip'
 import { RyzenInfoContext } from '/@renderer/lib/context'
-import { RyzenParamsDescriptionMap } from '/@types/ryzenadj/param-maps'
+import { RyzenParamsNameDescriptionMap } from '/@types/ryzenadj/params'
 
 function Status({ className = '' }: { className?: string }): React.JSX.Element {
   const ryzenInfo = useContext(RyzenInfoContext)
@@ -28,7 +28,7 @@ function Status({ className = '' }: { className?: string }): React.JSX.Element {
         <div>
           {`${powerStrings[ryzenInfo.POWER_SAVING?.value ?? ''] ?? '-'}`}{' '}
           <InfoTooltip
-            tooltip={RyzenParamsDescriptionMap[ryzenInfo.POWER_SAVING?.value ?? '']}
+            tooltip={RyzenParamsNameDescriptionMap[ryzenInfo.POWER_SAVING?.value ?? '']}
             className="relative top-[2px] h-3 w-3"
             direction="left"
           />
