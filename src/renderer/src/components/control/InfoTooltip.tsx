@@ -13,9 +13,9 @@ function InfoTooltip({ tooltip, direction, className = '' }: Props): React.JSX.E
         className={`tooltip relative ${!tooltip ? 'hidden' : ''}${direction ? ` tooltip-${direction}` : ''}`}
         data-tip={tooltip}
       >
-        <button className="btn flex h-min flex-row items-center justify-center bg-transparent p-0">
+        <div className="btn flex h-min flex-row items-center justify-center border-none bg-transparent p-0">
           <InformationCircleIcon className={`text-base-content ${className}`} />
-        </button>
+        </div>
       </div>
     </>
   )
