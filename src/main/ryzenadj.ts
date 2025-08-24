@@ -1,7 +1,7 @@
 import sudo from 'sudo-prompt'
 import { APP_NAME as name } from './config/app-name'
 import { logger } from './config/logger'
-import { RyzenInfoParamsMap, RyzenParamsUnitsMap } from '/@/types/ryzenadj/param-maps'
+import { RyzenInputKeyNameMap, RyzenNameUnitMap } from '/@/types/ryzenadj/params'
 import type {
   RyzenInfo,
   RyzenInfoParams,
@@ -60,20 +60,20 @@ export function parseRyzenAdjInfo(output: string): RyzenInfo {
     const num = Number(valueStr)
     if (!isNaN(num)) {
       // values documented as mW are actually reported in W
-      value = RyzenParamsUnitsMap[RyzenInfoParamsMap[key]]?.includes('mW') ? num * 1000 : num
+      value = RyzenNameUnitMap[RyzenInputKeyNameMap[key]]?.includes('mW') ? num * 1000 : num
     }
 
     result[key] = { value, ...(parameter !== '' ? { parameter } : {}) }
   }
 
   // not parsed correctly, and also not needed
-  delete result['CCLK_BUSY_VALUE']?.parameter
-  delete result['CCLK_Boost_SETPOINT']?.parameter
+  delete result['CCLK_BUSY_VALUE']?.name
+  delete result['CCLK_Boost_SETPOINT']?.name
 
   if (result['CCLK_Boost_SETPOINT']?.value === 50) {
-    result['POWER_SAVING'] = { value: 'max-performance', parameter: 'power-saving' }
+    result['POWER_SAVING'] = { value: 'max-performance', name: 'power-saving' }
   } else if (result['CCLK_Boost_SETPOINT']?.value === 95) {
-    result['POWER_SAVING'] = { value: 'power-saving', parameter: 'power-saving' }
+    result['POWER_SAVING'] = { value: 'power-saving', name: 'power-saving' }
   }
 
   return result

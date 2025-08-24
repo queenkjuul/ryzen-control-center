@@ -2,10 +2,10 @@ import { useContext, useEffect, useState } from 'react'
 import InfoTooltip from '/@renderer/components/control/InfoTooltip'
 import { RyzenInfoContext } from '/@renderer/lib/context'
 import {
-  RyzenInfoFieldsMap,
-  RyzenParamsDescriptionMap,
-  RyzenParamsUnitsMap
-} from '/@types/ryzenadj/param-maps'
+  RyzenInputKeyNameMap,
+  RyzenNameUnitMap,
+  RyzenParamsNameDescriptionMap
+} from '/@types/ryzenadj/params'
 
 function populated(obj): boolean {
   return Object.keys(obj).length !== 0
@@ -49,8 +49,8 @@ function RyzenValues(): React.JSX.Element {
                 if (ryzenInfo[key]['parameter']) {
                   return
                 }
-                const desc = RyzenParamsDescriptionMap[RyzenInfoFieldsMap[key]]
-                const unit = RyzenParamsUnitsMap[RyzenInfoFieldsMap[key]]
+                const desc = RyzenParamsNameDescriptionMap[RyzenInputKeyNameMap[key]]
+                const unit = RyzenNameUnitMap[RyzenInputKeyNameMap[key]]
                 return (
                   <tr key={key}>
                     <td className="flex flex-row items-center gap-2">

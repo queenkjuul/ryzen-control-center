@@ -3,9 +3,9 @@ import '/@test/mocks/setup-mocks.ts'
 import fs from 'fs'
 import path from 'path'
 import { describe, expect, it } from 'vitest'
+import { RyzenInputKeyNameMap } from '../types/ryzenadj/params'
 import { parseRyzenAdjInfo } from '/@/main/ryzenadj'
-import type { RyzenInfoFields, RyzenInfoValue } from '/@/types/ryzenadj/ryzenadj'
-import { RyzenInfoParamsMap } from '/@types/ryzenadj/param-maps'
+import type { RyzenInfoKeys, RyzenInfoValue } from '/@/types/ryzenadj/ryzenadj'
 
 describe('parseRyzenAdjInfo', () => {
   it('parses ryzenadj -i output correctly', () => {
@@ -20,7 +20,7 @@ describe('parseRyzenAdjInfo', () => {
     expect(info['PM_TABLE_VERSION']?.value).toBe('400005')
     expect(info['PM_TABLE_VERSION']?.value).toBeTypeOf('string')
 
-    const params = new Map<RyzenInfoFields, RyzenInfoValue>([
+    const params = new Map<RyzenInfoKeys, RyzenInfoValue>([
       ['STAPM_LIMIT', 45000],
       ['STAPM_VALUE', 8.9],
       ['PPT_LIMIT_FAST', 65000],
@@ -52,8 +52,8 @@ describe('parseRyzenAdjInfo', () => {
     for (const key of params.keys()) {
       expect(info[key]?.value).toBe(params.get(key))
       expect(info[key]?.value).toBeTypeOf(typeof params.get(key))
-      if (info[key]?.parameter) {
-        expect(info[key]?.parameter).toBe(RyzenInfoParamsMap[key])
+      if (info[key]?.name) {
+        expect(info[key]?.name).toBe(RyzenInputKeyNameMap[key])
       }
     }
   })
