@@ -21,15 +21,15 @@ describe('parseRyzenAdjInfo', () => {
     expect(info['PM_TABLE_VERSION']?.value).toBeTypeOf('string')
 
     const params = new Map<RyzenInfoFields, RyzenInfoValue>([
-      ['STAPM_LIMIT', 45.0],
+      ['STAPM_LIMIT', 45000],
       ['STAPM_VALUE', 8.9],
-      ['PPT_LIMIT_FAST', 65.0],
+      ['PPT_LIMIT_FAST', 65000],
       ['PPT_VALUE_FAST', 11.681],
-      ['PPT_LIMIT_SLOW', 54.0],
+      ['PPT_LIMIT_SLOW', 54000],
       ['PPT_VALUE_SLOW', 11.608],
       ['StapmTimeConst', 275.0],
       ['SlowPPTTimeConst', 5.0],
-      ['PPT_LIMIT_APU', 42.0],
+      ['PPT_LIMIT_APU', 42000],
       ['PPT_VALUE_APU', 11.608],
       ['TDC_LIMIT_VDD', 51.0],
       ['TDC_VALUE_VDD', 6.117],
