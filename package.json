@@ -19,7 +19,8 @@
     "build:unpack": "npm run build && electron-builder --dir",
     "build:win": "npm run build && electron-builder --win",
     "build:linux": "npm run genversion && electron-vite build && electron-builder --linux",
-    "test": "vitest src/test"
+    "test": "vitest src/test",
+    "test:run": "vitest --run src/test"
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.2",
