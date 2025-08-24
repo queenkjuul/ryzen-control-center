@@ -38,7 +38,8 @@ export function setupIpcServer(): Promise<void> {
       )
 
       ipcMain.handle('getSettings', async (): Promise<IpcResponse<AppSettings>> => {
-        logger.info('Client requested current settings state', appState.appSettings)
+        logger.info('Client requested current settings state')
+        logger.debug('Current settings state: ', appState.appSettings)
         return new IpcResponse<AppSettings>(appState.appSettings)
       })
 

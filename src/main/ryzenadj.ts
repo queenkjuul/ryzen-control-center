@@ -1,6 +1,7 @@
 import sudo from 'sudo-prompt'
 import { APP_NAME as name } from './config/app-name'
 import { logger } from './config/logger'
+import { RyzenInfoParamsMap, RyzenParamsUnitsMap } from '/@/types/ryzenadj/param-maps'
 import type {
   RyzenInfo,
   RyzenInfoParams,
@@ -54,11 +55,15 @@ export function parseRyzenAdjInfo(output: string): RyzenInfo {
     if (cols.length !== 3) continue
 
     const [name, valueStr, parameter] = cols
+    const key = name.replaceAll(' ', '_')
     let value: number | string = valueStr
     const num = Number(valueStr)
-    if (!isNaN(num)) value = num
+    if (!isNaN(num)) {
+      // values documented as mW are actually reported in W
+      value = RyzenParamsUnitsMap[RyzenInfoParamsMap[key]]?.includes('mW') ? num * 1000 : num
+    }
 
-    result[name.replaceAll(' ', '_')] = { value, ...(parameter !== '' ? { parameter } : {}) }
+    result[key] = { value, ...(parameter !== '' ? { parameter } : {}) }
   }
 
   // not parsed correctly, and also not needed
