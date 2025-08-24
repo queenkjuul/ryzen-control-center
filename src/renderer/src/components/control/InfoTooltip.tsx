@@ -1,4 +1,5 @@
 import { InformationCircleIcon } from '@heroicons/react/16/solid'
+import type { ReactElement } from 'react'
 
 interface Props {
   tooltip: string
@@ -6,7 +7,7 @@ interface Props {
   className?: string
 }
 
-function InfoTooltip({ tooltip, direction, className = '' }: Props): React.JSX.Element {
+function InfoTooltip({ tooltip, direction, className = '' }: Props): ReactElement {
   return (
     <>
       <div

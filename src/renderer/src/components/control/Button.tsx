@@ -1,21 +1,28 @@
-import type { PropsWithChildren } from 'react'
+import type { PropsWithChildren, ReactElement } from 'react'
 
 interface Props {
   className?: string
   label?: string
-  onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+  tooltip?: string
   disabled?: boolean
+  onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
 }
 
 function Button({
   className = '',
   label = '',
-  onClick = () => {},
+  tooltip = '',
   disabled = false,
+  onClick = () => {},
   children
-}: PropsWithChildren<Props>): React.JSX.Element {
+}: PropsWithChildren<Props>): ReactElement {
   return (
-    <button className={`btn ${className}`} onClick={onClick} disabled={disabled}>
+    <button
+      className={`btn tooltip ${className}`}
+      onClick={onClick}
+      disabled={disabled}
+      data-tip={tooltip}
+    >
       {label}
       {children}
     </button>

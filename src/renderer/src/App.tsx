@@ -1,5 +1,5 @@
 import cn from '@meltdownjs/cn'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type ReactElement } from 'react'
 import ThemeController from '/@components/control/ThemeController'
 import Dock from '/@components/Dock'
 import RyzenValues from '/@components/RyzenValues'
@@ -17,7 +17,7 @@ import type { AppSettings } from '/@types/app-settings'
 import type { RyzenInfo } from '/@types/ryzenadj/ryzenadj'
 import { AppPage } from '/@types/ui/page'
 
-function App(): React.JSX.Element {
+function App(): ReactElement {
   const themeController = document.querySelector('.theme-controller') as HTMLInputElement
 
   const [page, setPage] = useState<AppPage>(AppPage.VIEW)

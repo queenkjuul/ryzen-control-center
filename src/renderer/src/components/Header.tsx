@@ -1,10 +1,17 @@
 import { ArrowPathIcon } from '@heroicons/react/16/solid'
 import { BookOpenIcon, Cog6ToothIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import type { ReactElement } from 'react'
 import darkLogo from '../assets/ryzen-logo-dark.png'
 import lightLogo from '../assets/ryzen-logo-light.png'
 import Status from '/@renderer/components/Status'
 
-function Header({ showSettings, setShowSettings, getRyzenInfo }) {
+type Props = {
+  showSettings: boolean
+  setShowSettings: (boolean) => any
+  getRyzenInfo: () => any
+}
+
+function Header({ showSettings, setShowSettings, getRyzenInfo }: Props): ReactElement {
   return (
     <div className="bg-base-200 flex flex-row items-center justify-around gap-2">
       <img alt="logo" className="logo hidden h-24 w-24 dark:block" src={darkLogo} />

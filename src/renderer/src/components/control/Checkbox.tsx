@@ -1,4 +1,4 @@
-import type { ChangeEventHandler } from 'react'
+import type { ChangeEventHandler, ReactElement } from 'react'
 
 type Props = {
   label?: string
@@ -16,7 +16,7 @@ function Checkbox({
   defaultChecked = false,
   value,
   onChange
-}: Props): React.JSX.Element {
+}: Props): ReactElement {
   return (
     <label className={`label text-base-content`}>
       <input

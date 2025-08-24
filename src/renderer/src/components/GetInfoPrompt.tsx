@@ -1,9 +1,9 @@
 import cn from '@meltdownjs/cn'
-import { useContext } from 'react'
+import { useContext, type ReactElement } from 'react'
 import Button from '/@renderer/components/control/Button'
 import { RyzenInfoContext } from '/@renderer/lib/context'
 
-function GetInfoPrompt({ className }: { className?: string }): React.JSX.Element {
+function GetInfoPrompt({ className }: { className?: string }): ReactElement {
   const { getRyzenInfo } = useContext(RyzenInfoContext)
 
   return (

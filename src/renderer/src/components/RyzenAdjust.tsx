@@ -1,6 +1,6 @@
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/16/solid'
-import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline'
-import { useContext, useEffect, useRef, useState } from 'react'
+import { ArrowTopRightOnSquareIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline'
+import { useContext, useEffect, useRef, useState, type ReactElement } from 'react'
 import * as ipc from '/@lib/ipc-client'
 import Button from '/@renderer/components/control/Button'
 import { RyzenInfoContext } from '/@renderer/lib/context'
@@ -39,7 +39,7 @@ function RyzenInputRow({
   value?: any
   advanced?: boolean
   onChange?: (e: any) => void
-}) {
+}): ReactElement {
   const description = RyzenParamsNameDescriptionMap[name]
   return (
     <tr className="w-full px-2" key={name}>
@@ -65,7 +65,7 @@ function RyzenInputRow({
   )
 }
 
-function RyzenAdjust() {
+function RyzenAdjust(): ReactElement {
   const { ryzenInfo, setRyzenInfo } = useContext(RyzenInfoContext)
 
   const containerRef = useRef<HTMLDivElement>(null)
@@ -146,6 +146,7 @@ function RyzenAdjust() {
                     onChange={(e) => {
                       setNewRyzenInfo({ ...newRyzenInfo, [name]: e.target.value })
                     }}
+                    key={key}
                   />
                 )
               })}
@@ -187,6 +188,7 @@ function RyzenAdjust() {
                   className="link-warning-content link"
                   href="https://github.com/FlyGoat/RyzenAdj/wiki/Options"
                   target="_blank"
+                  rel="noreferrer"
                 >
                   RyzenAdj Wiki <ArrowTopRightOnSquareIcon className="mb-1 inline-block w-3" />
                 </a>{' '}
@@ -206,7 +208,7 @@ function RyzenAdjust() {
                   if (key === 'POWER_SAVING' || key === 'MAX_PERFORMANCE') {
                     return <></>
                   }
-                  return <RyzenInputRow name={name} advanced />
+                  return <RyzenInputRow name={name} advanced key={key} />
                 })}
               </tbody>
             </table>

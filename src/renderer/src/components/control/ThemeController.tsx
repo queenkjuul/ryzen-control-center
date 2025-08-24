@@ -3,12 +3,12 @@
 // there is no other way to override the default theme
 // The DaisyUI docs' example of a drop-down is not to my liking, so I'm just using a hidden control
 
-import { useContext, useEffect, useRef } from 'react'
+import { useContext, useEffect, useRef, type ReactElement } from 'react'
 import { SettingsContext, type AppSettingsContext } from '/@renderer/lib/context'
 import * as ipc from '/@renderer/lib/ipc-client'
 import { setTheme } from '/@renderer/lib/theme/theme'
 
-function ThemeController(): React.JSX.Element {
+function ThemeController(): ReactElement {
   const themeController = useRef<HTMLInputElement>(null)
   const { settings, setSettings } = useContext<AppSettingsContext>(SettingsContext)
 

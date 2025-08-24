@@ -1,5 +1,5 @@
 import cn from '@meltdownjs/cn'
-import { useContext } from 'react'
+import { useContext, type ReactElement } from 'react'
 import InfoTooltip from '/@renderer/components/control/InfoTooltip'
 import { RyzenInfoContext } from '/@renderer/lib/context'
 import {
@@ -9,7 +9,7 @@ import {
 } from '/@types/ryzenadj/params'
 import type { ClassName } from '/@types/ui/class-name'
 
-function RyzenValues({ className }: ClassName): React.JSX.Element {
+function RyzenValues({ className }: ClassName): ReactElement {
   const { ryzenInfo } = useContext(RyzenInfoContext)
 
   return (

@@ -1,9 +1,9 @@
-import { useContext } from 'react'
+import { useContext, type ReactElement } from 'react'
 import InfoTooltip from '/@renderer/components/control/InfoTooltip'
 import { RyzenInfoContext } from '/@renderer/lib/context'
 import { RyzenParamsNameDescriptionMap } from '/@types/ryzenadj/params'
 
-function Status({ className = '' }: { className?: string }): React.JSX.Element {
+function Status({ className = '' }: { className?: string }): ReactElement {
   const { ryzenInfo } = useContext(RyzenInfoContext)
   const powerStrings = {
     'power-saving': 'Power Saving',

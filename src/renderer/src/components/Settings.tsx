@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useState, type ReactElement } from 'react'
 import * as ipc from '../lib/ipc-client'
 import { validateThemeStructure } from '../lib/theme/theme-validation.js'
 import Checkbox from '/@renderer/components/control/Checkbox'
@@ -14,7 +14,7 @@ const themeSourceLabels = {
   dark: 'Dark',
   light: 'Light'
 }
-function Settings(): React.JSX.Element {
+function Settings(): ReactElement {
   const { settings: currentSettings, setSettings: setCurrentSettings } =
     useContext<AppSettingsContext>(SettingsContext)
   const [validationError, setValidationError] = useState<string>('')
