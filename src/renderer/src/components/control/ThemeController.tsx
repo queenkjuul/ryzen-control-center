@@ -16,7 +16,6 @@ function ThemeController(): React.JSX.Element {
     if (themeController.current) {
       setTheme(themeController.current, settings)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [settings])
 
   useEffect(() => {

@@ -18,7 +18,7 @@ export function setTheme(themeController: HTMLInputElement, settings: Partial<Ap
     } else {
       rootElem.style = ''
     }
-  } catch (error) {
+  } catch (_error) {
     // swallow error, fall back to other settings
   }
   const systemDark = matchMedia('(prefers-color-scheme: dark)').matches

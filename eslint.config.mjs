@@ -1,6 +1,6 @@
 import eslintConfigPrettier from '@electron-toolkit/eslint-config-prettier'
 import tseslint from '@electron-toolkit/eslint-config-ts'
-import js from '@eslint/js'
+import eslint from '@eslint/js'
 import eslintPluginJsxA11y from 'eslint-plugin-jsx-a11y'
 import eslintPluginReact from 'eslint-plugin-react'
 import eslintPluginReactHooks from 'eslint-plugin-react-hooks'
@@ -9,9 +9,17 @@ import globals from 'globals'
 
 export default tseslint.config(
   { ignores: ['**/node_modules', '**/dist', '**/out'] },
-  { ...tseslint.configs.recommended, files: ['**/*.{ts,tsx}'] },
-  { files: ['**/*.{js,jsx}'], languageOptions: { globals: globals.browser } },
-  { files: ['**/*.{js,jsx}'], plugins: { js }, extends: ['js/recommended'] },
+  eslint.configs.recommended,
+  tseslint.configs.recommended,
+  {
+    files: ['**/*.{js,jsx}'],
+    rules: {
+      '@typescript-eslint/explicit-function-return-type': 'off'
+    },
+    languageOptions: {
+      globals: globals.browser
+    }
+  },
   eslintPluginReact.configs.flat.recommended,
   eslintPluginReact.configs.flat['jsx-runtime'],
   {
@@ -19,17 +27,8 @@ export default tseslint.config(
       react: {
         version: 'detect'
       }
-    }
-  },
-  {
-    files: ['**/*.{ts,tsx}'],
-    plugins: {
-      'react-hooks': eslintPluginReactHooks,
-      'react-refresh': eslintPluginReactRefresh
     },
     rules: {
-      ...eslintPluginReactHooks.configs.recommended.rules,
-      ...eslintPluginReactRefresh.configs.vite.rules,
       ...{
         '@typescript-eslint/no-unused-vars': [
           'error',
@@ -43,7 +42,18 @@ export default tseslint.config(
             ignoreRestSiblings: true
           }
         ]
-      },
+      }
+    }
+  },
+  {
+    files: ['**/*.{ts,tsx}'],
+    plugins: {
+      'react-hooks': eslintPluginReactHooks,
+      'react-refresh': eslintPluginReactRefresh
+    },
+    rules: {
+      ...eslintPluginReactHooks.configs.recommended.rules,
+      ...eslintPluginReactRefresh.configs.vite.rules,
       ...{
         '@typescript-eslint/no-explicit-any': ['off']
       }
