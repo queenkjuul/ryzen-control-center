@@ -9,7 +9,7 @@ import type {
   RyzenInfoParams,
   RyzenInfoValue,
   RyzenSetResultAndNewInfo
-} from '/@/types/ryzenadj/ryzenadj'
+} from '/@/types/ryzenadj'
 
 export function setupIpcServer(): Promise<void> {
   return new Promise<void>((res, rej) => {

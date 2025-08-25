@@ -5,6 +5,7 @@ import * as ipc from '/@lib/ipc-client'
 import Button from '/@renderer/components/control/Button'
 import { RyzenInfoContext } from '/@renderer/lib/context'
 import { populated, swapKeysAndValues } from '/@renderer/lib/util'
+import type { RyzenInfoKeys, RyzenInfoNames, RyzenSetParamsObject } from '/@types/ryzenadj'
 import {
   RyzenInfoNamesList,
   RyzenInputKeyNameMap,

@@ -14,7 +14,7 @@ import RyzenAdjust from '/@renderer/components/RyzenAdjust'
 import RyzenPresets from '/@renderer/components/RyzenPresets'
 import { populated } from '/@renderer/lib/util'
 import type { AppSettings } from '/@types/app-settings'
-import type { RyzenInfo } from '/@types/ryzenadj/ryzenadj'
+import type { RyzenInfo, RyzenInfoParams, RyzenInfoValue } from '/@types/ryzenadj'
 import { AppPage } from '/@types/ui/page'
 
 function App(): ReactElement {

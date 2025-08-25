@@ -7,7 +7,7 @@ import type {
   RyzenInfoParams,
   RyzenInfoValue,
   RyzenSetResultAndNewInfo
-} from '/@types/ryzenadj/ryzenadj'
+} from '/@types/ryzenadj'
 
 declare global {
   interface Window {

@@ -1,6 +1,6 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import type { AppSettingsKey, AppSettingsValue } from '/@/types/app-settings'
-import type { RyzenInfoParams, RyzenInfoValue } from '/@/types/ryzenadj/ryzenadj'
+import type { RyzenInfoParams, RyzenInfoValue } from '/@/types/ryzenadj'
 import { version } from '/@/version'
 
 // Custom APIs for renderer
