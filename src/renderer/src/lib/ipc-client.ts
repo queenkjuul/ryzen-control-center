@@ -5,7 +5,7 @@ import type {
   RyzenInfoParams,
   RyzenInfoValue,
   RyzenSetResultAndNewInfo
-} from '/@types/ryzenadj/ryzenadj'
+} from '/@types/ryzenadj'
 
 const checkForErrors = <T>(response: IpcResponse<T>): T => {
   if (response.error) {

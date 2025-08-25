@@ -1,5 +1,5 @@
 // cSpell:disable
-import { RyzenInfoKeys, RyzenInfoNames } from './ryzenadj'
+import { RyzenInfoKeys, RyzenInfoNames } from '.'
 
 // [ ] TODO: These consts and their usages have gotten somewhat messy.
 // just see things like swapKeysAndValues, getKeyFromValue... not great

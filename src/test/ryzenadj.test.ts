@@ -2,24 +2,39 @@ import '/@test/mocks/setup-mocks.ts'
 
 import fs from 'fs'
 import path from 'path'
-import { describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
+import type { RyzenInfoKeys, RyzenInfoValue, RyzenSetParamsObject } from '../types/ryzenadj'
 import { RyzenInputKeyNameMap } from '../types/ryzenadj/params'
-import { parseRyzenAdjInfo, setParamAndGetInfo, SUCCESS_STRING } from '/@/main/ryzenadj'
+import {
+  parseRyzenAdjInfo,
+  setMultipleRyzenParams,
+  setParamAndGetInfo,
+  SUCCESS_STRING
+} from '/@/main/ryzenadj'
 import { runRyzenadjCommand } from '/@/main/ryzenadj/command'
-import type { RyzenInfoKeys, RyzenInfoValue } from '/@/types/ryzenadj/ryzenadj'
+
+const mocks = vi.hoisted(() => {
+  return {
+    runRyzenadjCommand: vi.fn()
+  }
+})
 
 vi.mock('/@/main/ryzenadj/command', async (importActual) => {
   return {
     ...(await importActual()),
-    runRyzenadjCommand: vi.fn().mockImplementation(() => {
-      const fixturePath = path.resolve(__dirname, 'fixtures/ryzenadj-info-output.txt')
-      return fs.readFileSync(fixturePath, 'utf-8') + `\n${SUCCESS_STRING}\n` + 'error:'
-    })
+    runRyzenadjCommand: mocks.runRyzenadjCommand
   }
 })
 
 const fixturePath = path.resolve(__dirname, 'fixtures/ryzenadj-info-output.txt')
 const rawOutput = fs.readFileSync(fixturePath, 'utf-8')
+
+function getOutputString(...append: string[]): string {
+  if (append.length === 0) {
+    append = [SUCCESS_STRING]
+  }
+  return rawOutput + append.join('\n')
+}
 
 const params = new Map<RyzenInfoKeys, RyzenInfoValue>([
   ['STAPM_LIMIT', 45000],
@@ -72,14 +87,85 @@ describe('parseRyzenAdjInfo', () => {
 })
 
 describe('setting params', () => {
-  it('calls proper command when setting single parameter', async () => {
-    const result = await setParamAndGetInfo('stapm-limit', 42000)
-    expect(runRyzenadjCommand).toHaveBeenCalledWith(
-      `bash -c 'ryzenadj --stapm-limit=42000; ryzenadj -i'`
-    )
-    expect(result.setResult).toBe(true)
-    params.keys().forEach((key) => {
-      expect(result.newInfo[key]?.value).toBe(params.get(key))
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  describe('set single param', () => {
+    it('calls proper command', async () => {
+      mocks.runRyzenadjCommand.mockImplementation(() => getOutputString())
+      const result = await setParamAndGetInfo('stapm-limit', 42000)
+      expect(runRyzenadjCommand).toHaveBeenCalledWith(
+        `bash -c 'ryzenadj --stapm-limit=42000; ryzenadj -i'`
+      )
+      expect(result.setResult).toBe(true)
+      params.keys().forEach((key) => {
+        expect(result.newInfo[key]?.value).toBe(params.get(key))
+      })
+    })
+
+    it('sets error message on error', async () => {
+      mocks.runRyzenadjCommand.mockImplementation(() => getOutputString('error:'))
+      const result = await setParamAndGetInfo('stapm-limit', 42000)
+      expect(runRyzenadjCommand).toHaveBeenCalled()
+      expect(result.setResult).toBe(false)
+      expect(result.error).toBe('error:')
+    })
+  })
+
+  describe('set multiple params', () => {
+    // proper handling of --power-saving, --max-performance is implicit
+    // [ ] TODO: Add --enable-oc, --disable-oc
+    it('calls proper command', async () => {
+      mocks.runRyzenadjCommand.mockImplementation(() =>
+        getOutputString(SUCCESS_STRING, SUCCESS_STRING, SUCCESS_STRING)
+      )
+      const paramsObject: RyzenSetParamsObject = {
+        'stapm-limit': 42000,
+        'power-saving': 'power-saving',
+        'tctl-temp': 86
+      }
+      const result = await setMultipleRyzenParams(paramsObject)
+      expect(runRyzenadjCommand).toHaveBeenCalledWith(
+        `bash -c 'ryzenadj --stapm-limit=42000 --tctl-temp=86 --power-saving; ryzenadj -i'`
+      )
+      expect(result.setResult).toBe(true)
+      params.keys().forEach((key) => {
+        expect(result.newInfo[key]?.value).toBe(params.get(key))
+      })
+    })
+
+    it('fails if success count incorrect', async () => {
+      mocks.runRyzenadjCommand.mockImplementation(
+        () => getOutputString(SUCCESS_STRING, SUCCESS_STRING) // 2 success, 3 requests
+      )
+      const paramsObject: RyzenSetParamsObject = {
+        'stapm-limit': 42000,
+        'power-saving': 'power-saving',
+        'tctl-temp': 86
+      }
+      const result = await setMultipleRyzenParams(paramsObject)
+      expect(runRyzenadjCommand).toHaveBeenCalledWith(
+        `bash -c 'ryzenadj --stapm-limit=42000 --tctl-temp=86 --power-saving; ryzenadj -i'`
+      )
+      expect(result.setResult).toBe(false)
+    })
+
+    it('passes error message', async () => {
+      mocks.runRyzenadjCommand.mockImplementation(() =>
+        getOutputString(SUCCESS_STRING, SUCCESS_STRING, 'error:')
+      )
+      const paramsObject: RyzenSetParamsObject = {
+        'stapm-limit': 42000,
+        'power-saving': 'power-saving',
+        'tctl-temp': 86
+      }
+      const result = await setMultipleRyzenParams(paramsObject)
+      expect(runRyzenadjCommand).toHaveBeenCalledWith(
+        `bash -c 'ryzenadj --stapm-limit=42000 --tctl-temp=86 --power-saving; ryzenadj -i'`
+      )
+      expect(result.setResult).toBe(false)
+      expect(result.error).toBe('error:')
     })
   })
 })
