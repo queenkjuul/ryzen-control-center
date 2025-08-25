@@ -55,7 +55,8 @@ export default tseslint.config(
       ...eslintPluginReactHooks.configs.recommended.rules,
       ...eslintPluginReactRefresh.configs.vite.rules,
       ...{
-        '@typescript-eslint/no-explicit-any': ['off']
+        '@typescript-eslint/no-explicit-any': ['off'],
+        'react-hooks/exhaustive-deps': ['off']
       }
     }
   },
