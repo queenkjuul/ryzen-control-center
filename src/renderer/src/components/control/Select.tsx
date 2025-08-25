@@ -1,4 +1,4 @@
-import type { ChangeEvent, EventHandler } from 'react'
+import type { ChangeEvent, EventHandler, ReactElement } from 'react'
 import type { SelectOption } from '/@types/ui/select'
 
 type Props = {
@@ -16,7 +16,7 @@ function Select({
   value,
   disabled = false,
   onChange
-}: Props): React.JSX.Element {
+}: Props): ReactElement {
   return (
     <label className={`select ${className}`}>
       <span className="label">{label}</span>

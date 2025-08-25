@@ -1,6 +1,6 @@
 import { logger } from '/@/main/config/logger'
+import type { RyzenInfo } from '/@/types/ryzenadj'
 import { RyzenInputKeyNameMap, RyzenNameUnitMap } from '/@/types/ryzenadj/params'
-import type { RyzenInfo } from '/@/types/ryzenadj/ryzenadj'
 
 function getValue(line: string): { value: string } {
   return { value: line?.split(':')[1]?.trim() ?? '' }

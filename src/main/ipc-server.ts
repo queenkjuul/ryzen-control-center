@@ -1,6 +1,6 @@
 import { ipcMain, nativeTheme } from 'electron'
 import { logger } from '/@/main/config/logger'
-import { getRyzenInfo, setParamAndGetInfo } from '/@/main/ryzenadj'
+import { getRyzenInfo, setMultipleRyzenParams, setParamAndGetInfo } from '/@/main/ryzenadj'
 import { appState } from '/@/main/state'
 import type { AppSettings, AppSettingsKey } from '/@/types/app-settings'
 import { IpcResponse } from '/@/types/ipc'
@@ -8,8 +8,9 @@ import type {
   RyzenInfo,
   RyzenInfoParams,
   RyzenInfoValue,
+  RyzenSetParamsObject,
   RyzenSetResultAndNewInfo
-} from '/@/types/ryzenadj/ryzenadj'
+} from '/@/types/ryzenadj'
 
 export function setupIpcServer(): Promise<void> {
   return new Promise<void>((res, rej) => {
@@ -69,6 +70,21 @@ export function setupIpcServer(): Promise<void> {
             return { data }
           } catch (error) {
             logger.error(error)
+            return { error }
+          }
+        }
+      )
+
+      ipcMain.handle(
+        'setMultipleRyzenParams',
+        async (
+          _event,
+          params: RyzenSetParamsObject
+        ): Promise<IpcResponse<RyzenSetResultAndNewInfo>> => {
+          try {
+            const data = await setMultipleRyzenParams(params)
+            return { data }
+          } catch (error) {
             return { error }
           }
         }

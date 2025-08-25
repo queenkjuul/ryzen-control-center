@@ -1,7 +1,8 @@
+import type { ReactElement } from 'react'
 import Button from '/@renderer/components/control/Button'
 import Select from '/@renderer/components/control/Select'
 
-function ThemePreview(): React.JSX.Element {
+function ThemePreview(): ReactElement {
   return (
     <fieldset className="fieldset bg-base-200 border-base-300 rounded border p-2">
       <legend className="fieldset-legend">Theme Preview</legend>

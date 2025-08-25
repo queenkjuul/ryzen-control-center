@@ -4,8 +4,9 @@ import type {
   RyzenInfo,
   RyzenInfoParams,
   RyzenInfoValue,
+  RyzenSetParamsObject,
   RyzenSetResultAndNewInfo
-} from '/@types/ryzenadj/ryzenadj'
+} from '/@types/ryzenadj'
 
 const checkForErrors = <T>(response: IpcResponse<T>): T => {
   if (response.error) {
@@ -29,6 +30,12 @@ export const setRyzenParam = async (
   value: RyzenInfoValue
 ): Promise<RyzenSetResultAndNewInfo> => {
   return checkForErrors(await window.api.setRyzenParam(param, value))
+}
+
+export const setMultipleRyzenParams = async (
+  params: RyzenSetParamsObject
+): Promise<RyzenSetResultAndNewInfo> => {
+  return checkForErrors(await window.api.setMultipleRyzenParams(params))
 }
 
 export const getSettings = async (): Promise<AppSettings> => {

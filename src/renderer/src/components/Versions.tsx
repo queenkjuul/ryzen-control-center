@@ -1,7 +1,7 @@
 import cn from '@meltdownjs/cn'
-import { useState } from 'react'
+import { useState, type ReactElement } from 'react'
 
-function Versions({ className = '' }: { className?: string }): React.JSX.Element {
+function Versions({ className = '' }: { className?: string }): ReactElement {
   const [versions] = useState(window.api?.versions)
 
   return (

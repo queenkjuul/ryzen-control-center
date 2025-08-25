@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useState, type ReactElement } from 'react'
 import * as ipc from '../lib/ipc-client'
 import { validateThemeStructure } from '../lib/theme/theme-validation.js'
 import Checkbox from '/@renderer/components/control/Checkbox'
@@ -14,14 +14,14 @@ const themeSourceLabels = {
   dark: 'Dark',
   light: 'Light'
 }
-function Settings(): React.JSX.Element {
+function Settings(): ReactElement {
   const { settings: currentSettings, setSettings: setCurrentSettings } =
     useContext<AppSettingsContext>(SettingsContext)
   const [validationError, setValidationError] = useState<string>('')
 
   return (
     <>
-      <div className="m-2">
+      <div className="m-2 overflow-y-auto">
         <h2 className="mb-2 text-2xl">Settings</h2>
         <div className="flex flex-col gap-2 sm:grid sm:grid-cols-2">
           <Checkbox
@@ -74,7 +74,7 @@ function Settings(): React.JSX.Element {
               setCurrentSettings(await ipc.setSetting('theme', theme))
             }}
           />
-          <div className="flex flex-col gap-4">
+          <div className="mt-2 flex flex-col gap-4">
             <Checkbox
               label="Use custom CSS"
               disabled={!currentSettings.useCustomTheme}

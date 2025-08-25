@@ -6,22 +6,23 @@
   "author": "https://github.com/queenkjuul",
   "homepage": "https://github.com/queenkjuul/ryzen-control-center",
   "scripts": {
+    "dev": "npm run genversion && electron-vite dev -w",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm run test",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint --cache .",
-    "genversion": "genversion --esm src/version.js",
     "typecheck:node": "tsc --noEmit -p tsconfig.node.json --composite false",
     "typecheck:web": "tsc --noEmit -p tsconfig.web.json --composite false",
     "typecheck": "npm run typecheck:node && npm run typecheck:web",
-    "start": "electron-vite preview",
-    "dev": "npm run genversion && electron-vite dev -w",
+    "test": "vitest --run src/test",
+    "test:watch": "vitest src/test",
+    "genversion": "genversion --esm src/version.js",
     "build": "npm run genversion && npm run typecheck && electron-vite build",
     "postinstall": "electron-builder install-app-deps",
     "build:unpack": "npm run build && electron-builder --dir",
     "build:win": "npm run build && electron-builder --win",
     "build:linux": "npm run genversion && electron-vite build && electron-builder --linux",
-    "test": "vitest src/test",
-    "test:run": "vitest --run src/test"
+    "start": "electron-vite preview"
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.2",

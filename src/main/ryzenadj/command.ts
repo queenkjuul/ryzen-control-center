@@ -3,7 +3,7 @@ import { APP_NAME as name } from '/@/main/config/app-name'
 import { logger } from '/@/main/config/logger'
 
 export function buildRyzenCommand(...args: string[]): string {
-  return `ryzenadj ${args}`
+  return `ryzenadj ${args.join(' ')}`
 }
 
 export function runRyzenadjCommand(command: string): Promise<string> {

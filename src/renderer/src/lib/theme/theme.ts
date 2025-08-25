@@ -22,7 +22,7 @@ export function setTheme(themeController: HTMLInputElement, settings: Partial<Ap
     // swallow error, fall back to other settings
   }
   const systemDark = matchMedia('(prefers-color-scheme: dark)').matches
-  if (!settings.useCustomTheme) {
+  if (!settings.useCustomTheme && settings.themeSource === 'system') {
     console.log('updating dark', systemDark)
     setSetting('dark', systemDark)
     settings.dark = systemDark
