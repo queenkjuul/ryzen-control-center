@@ -41,15 +41,19 @@ function App(): ReactElement {
     setRyzenInfo(newRyzenInfo)
   }
 
+  const setRyzenParam = async (param: RyzenInfoParams, value: RyzenInfoValue): Promise<void> => {
+    const data = await ipc.setRyzenParam(param, value)
+    if (!data.setResult) {
+      throw new Error(`Failed to set parameter: ${param} to ${value}`)
+    }
+    setRyzenInfo(data.newInfo)
+  }
+
   return (
     <SettingsContext.Provider value={appSettings}>
-      <RyzenInfoContext.Provider value={{ ryzenInfo, setRyzenInfo, getRyzenInfo }}>
+      <RyzenInfoContext.Provider value={{ ryzenInfo, setRyzenInfo, getRyzenInfo, setRyzenParam }}>
         <div className="flex h-full flex-col">
-          <Header
-            showSettings={showSettings}
-            setShowSettings={setShowSettings}
-            getRyzenInfo={getRyzenInfo}
-          />
+          <Header showSettings={showSettings} setShowSettings={setShowSettings} />
           {showSettings ? (
             <>
               <Settings />

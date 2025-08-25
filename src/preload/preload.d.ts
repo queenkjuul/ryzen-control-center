@@ -6,6 +6,7 @@ import type {
   RyzenInfo,
   RyzenInfoParams,
   RyzenInfoValue,
+  RyzenSetParamsObject,
   RyzenSetResultAndNewInfo
 } from '/@types/ryzenadj'
 
@@ -17,6 +18,9 @@ declare global {
       setRyzenParam: (
         param: RyzenInfoParams,
         value: RyzenInfoValue
+      ) => Promise<IpcResponse<RyzenSetResultAndNewInfo>>
+      setMultipleRyzenParams: (
+        params: RyzenSetParamsObject
       ) => Promise<IpcResponse<RyzenSetResultAndNewInfo>>
       getSettings: () => Promise<IpcResponse<AppSettings>>
       setSetting: <K extends AppSettingsKey>(

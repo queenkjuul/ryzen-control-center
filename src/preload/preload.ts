@@ -1,6 +1,6 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import type { AppSettingsKey, AppSettingsValue } from '/@/types/app-settings'
-import type { RyzenInfoParams, RyzenInfoValue } from '/@/types/ryzenadj'
+import type { RyzenInfoParams, RyzenInfoValue, RyzenSetParamsObject } from '/@/types/ryzenadj'
 import { version } from '/@/version'
 
 // Custom APIs for renderer
@@ -8,6 +8,8 @@ const api = {
   getRyzenInfo: () => ipcRenderer.invoke('getRyzenInfo'),
   setRyzenParam: (param: RyzenInfoParams, value: RyzenInfoValue) =>
     ipcRenderer.invoke('setRyzenParam', param, value),
+  setMultipleRyzenParams: (params: RyzenSetParamsObject) =>
+    ipcRenderer.invoke('setMultipleRyzenParams', params),
   getSettings: () => ipcRenderer.invoke('getSettings'),
   setSetting: (setting: AppSettingsKey, value: AppSettingsValue) => {
     return ipcRenderer.invoke('setSetting', setting, value)
@@ -20,7 +22,6 @@ const api = {
     // use React to pass state down
     ipcRenderer.removeAllListeners('settingsChange')
     ipcRenderer.on('settingsChange', (_event, value) => {
-      console.log(value)
       callback(value)
     })
   }
