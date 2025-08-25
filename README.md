@@ -1,14 +1,16 @@
-# ryzen-control-center
+# Ryzen Control Center
 
 ![build](https://github.com/queenkjuul/ryzen-control-center/actions/workflows/build.yaml/badge.svg)
 ![check](https://github.com/queenkjuul/ryzen-control-center/actions/workflows/check.yaml/badge.svg)
 ![test](https://github.com/queenkjuul/ryzen-control-center/actions/workflows/test.yaml/badge.svg)
 
-Quick and dirty wrapper for [RyzenAdj](https://github.com/FlyGoat/RyzenAdj) on Linux (and maybe Windows)
-
-Maybe someday, less quick and dirty, and instead a D-Bus client for [`ryzend`](https://github.com/queenkjuul/ryzend)
+Ryzen Control Center is a GUI frontend for [RyzenAdj](https://github.com/FlyGoat/RyzenAdj) on Linux (and maybe Windows, eventually).
 
 ![Screenshot of Ryzen Control Center](image.png)
+
+The app is focused on being friendly and beautiful before being lean and mean. Thus, it is written in Electron. Yeah, sue me. I'm a web developer. All I have is this TypeScript-shaped hammer.
+
+As I am likely to continue owning my Ryzen 5000 series laptop for quite some time, I do have loose long-term plans for a D-Bus daemon, [`ryzend`](https://github.com/queenkjuul/ryzend) (written in Go), which could be controlled by a small [python ayatana tray client](https://github.com/AyatanaIndicators/libayatana-appindicator-glib/blob/main/examples/simple-client-python.py) instead of a colossal hulking Electron app (that you have to admit, is at least pretty)
 
 ## About
 
@@ -16,18 +18,32 @@ Inspired by the now-deprecated [Ryzen Controller](https://gitlab.com/ryzen-contr
 
 Built with Electron, Vite, React, Tailwind, and DaisyUI.
 
-Development is focused on compatibility with latest Ubuntu, but the code is mostly platform-independent so a Windows version would be very little work.
+Development is focused on compatibility with latest Ubuntu, but the code is mostly platform-independent so a Windows version would be very little work (CI builds Windows binaries that run but are not actually wired to `ryzenadj` binaries)
+
+## Features
+
+### rice, rice, baby
+
+Generate custom themes with the [DaisyUI Theme Generator](https://daisyui.com/theme-generator/) and simply paste them into the app. Use any DaisyUI theme you can find on the internet just as easily. Or, pick from any of the dozens of built-in themes.
+
+more features probably coming eventually.
+
+![themes included in ryzen control center](./rcc.webp)
 
 ## Roadmap
 
 ### MVP
 
 - [x] per-interaction admin authentication (sudo/UAC) for getting and setting `ryzenadj`
-- [ ] tray icon for showing current config and setting values
-- [ ] main window for editing current config and setting tray options
+- [x] tray icon for showing current config and setting values\*
+- [x] main window for editing current config and setting tray options\*\*
 - [x] app runs with only tray icon after main window is closed
 - [x] settings persistence
 - [x] snap and AppImage packaging
+
+\*Tray only allows setting PowerSave/MaxPerformance.
+
+\*\*Tray does not actually expose any options for the main window to set, so, technically accurate (the best kind).
 
 ### Planned
 
